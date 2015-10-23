@@ -1,0 +1,68 @@
+// ----------------------------------
+// - bootstrap.scss -
+// BootstrapのSass拡張サポート
+//----------------------------------
+
+// [bootstrap]
+//see https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss
+
+$font-size-base: 13px;
+$navbar-height: 40px;
+$border-radius-base: 2px;
+
+$panel-body-padding: .6em;
+$panel-heading-padding: .4em .6em;
+$panel-default-text: #666;
+
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap-sprockets";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap";
+
+// ### basic ###
+
+hr {
+  margin: .6em 0;
+}
+
+p {
+  margin: 0 0 3px;
+}
+
+label, .label {
+  font-weight: normal;
+}
+
+th {
+  font-weight: normal;
+}
+
+// ### bootstrap ###
+
+.navbar-right {
+  margin-right: 3px;
+}
+
+.list-group {
+  margin-bottom: 0;
+}
+
+.list-group-item {
+  padding: 6px 9px;
+}
+
+.panel {
+  margin-bottom: 9px;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.alert {
+  font-size: 11px;
+  padding: 4px 6px;
+  margin-bottom: 6px;
+}
+
+.tab-pane {
+  margin-top: 6px
+}

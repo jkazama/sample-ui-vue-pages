@@ -1,0 +1,15 @@
+{
+  "name": "sample-ui-vue-pages",
+  "version": "0.1.0",
+  "private": true,
+  "main": "source/js/variables.js",
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "lodash": "~3.10.1",
+    "moment": "~2.10.6",
+    "bootstrap-sass-official": "~3.3.5",
+    "bootstrap-datepicker": "~1.4.0",
+    "fontawesome": "~4.4.0",
+    "vue": "~0.12.14"
+  }
+}
