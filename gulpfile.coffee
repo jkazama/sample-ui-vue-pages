@@ -2,6 +2,7 @@ root =
   src:         "#{__dirname}/source"
   dist:        "#{__dirname}/public"
   # dist:      "../src/main/resources/static"
+  tmp:         "#{__dirname}/tmp"
 paths =
   src:
     root:      "#{root.src}"
@@ -31,6 +32,7 @@ $      = do require "gulp-load-plugins"
 del    = require "del"
 path   = require "path"
 
+runSequence   = require "run-sequence"
 bower         = require "bower"
 bowerFiles    = require "main-bower-files"
 webpack       = require "webpack"
@@ -44,15 +46,22 @@ production = false
 gulp.task "default", ["build", "server"]
 
 ## build for developer
-gulp.task "build", ["clean", "bower", "build:jade", "build:sass", "build:webpack", "build:static"]
+gulp.task "build", (callback) ->
+  runSequence("clean", "bower", ["build:jade", "build:sass", "build:webpack", "build:static"], callback)
 
 ## build production
-gulp.task "build-prod", ["production", "build"]
+gulp.task "build-prod", (callback) ->
+  runSequence("production", "build", "revision", callback)
 
 # clean dist
-gulp.task "clean", -> del.sync ["#{paths.dist.root}/*", "!#{paths.dist.root}/.git*"], { dot: true, force: true }
+gulp.task "clean", -> del.sync ["#{paths.dist.root}/*", "!#{paths.dist.root}/.git*"], { force: true }
 
+# production option
 gulp.task "production", -> production = true
+
+# support Resource Revision
+gulp.task "revision", (callback) ->
+  runSequence("revision:clean", "revision:append", "clean", "revision:copy", "revision:clean", callback)
 
 # build Vendor UI Library (bower.json) [Load/Concat]
 gulp.task "bower", ->
@@ -146,3 +155,18 @@ gulp.task "server", ->
   gulp.watch resource.src.jade,      ["build:jade"]
   gulp.watch resource.src.sass,      ["build:sass"]
   gulp.watch resource.src.static,    ["build:static"]
+
+# append Resource Revision
+gulp.task "revision:clean", ->
+  del.sync [root.tmp], { force: true }
+
+gulp.task "revision:append", ->
+  RevAll = require "gulp-rev-all"
+  revAll = new RevAll({dontRenameFile: [/^\/favicon.ico$/g, '.html']})
+  gulp.src("#{paths.dist.root}/**/*")
+    .pipe(revAll.revision())
+    .pipe(gulp.dest(root.tmp))
+
+gulp.task "revision:copy", ->
+  gulp.src("#{root.tmp}/**/*")
+    .pipe(gulp.dest(paths.dist.root))
