@@ -18,7 +18,6 @@ sample-ui-vue-pages
     - Macユーザは「`sudo npm install -g gulp`」で。
 1. コンソールで本ディレクトリ直下へ移動後、「`npm install`」を実行してGulpライブラリをインストール。
     - Windowsユーザは「npm install --msvs_version=2013」。理由は後述
-1. 「`gulp bower`」を実行してアプリケーションで利用する関連ライブラリをプリインストール。
 
 ---
 
@@ -35,6 +34,7 @@ sample-ui-vue-pages
 1. コンソールで本ディレクトリ直下へ移動し、「`gulp`」を実行
     - 確認用のブラウザが自動的に起動する。うまく起動しなかったときは「http://localhost:3000」へアクセス
     - 画面が白く表示されてしまう時はブラウザの更新を押してみてください
+        - webpackのビルドが間に合っていない可能性が高いため
 
 ### 開発の流れ
 
