@@ -9,7 +9,7 @@
         ul.list-group
           li.list-group-item.l-list-wait-row.l-center
             i.fa.fa-spin.fa-spinner
-          li.list-group-item.clearfix(v-repeat="item : items")
+          li.list-group-item.clearfix(v-for="item in items")
             .l-item.l-item-day(v-text="item.requestDay | day")
             .l-item.l-item-type
               .label.label-default(v-text="item.statusType")

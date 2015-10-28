@@ -20,7 +20,6 @@ export default new Vue(new Option.ComponentBuilder({
       Lib.Ajax.get(`${Param.Api.root}/account/loginStatus`, {}, success, failure)
     },
     logout: function(e) {
-      e.preventDefault()
       this.logined = false
       this.logoutSession()
       this.apiPost('/logout', {}, ((v) => true), ((e)=> false))

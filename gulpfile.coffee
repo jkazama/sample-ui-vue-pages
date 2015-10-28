@@ -111,8 +111,8 @@ gulp.task "build:jade", ->
   gulp.src(resource.src.jade)
     .pipe($.plumber())
     .pipe($.jade())
-    .pipe($.htmlhint())
-    .pipe($.htmlhint.reporter())
+    # .pipe($.htmlhint())
+    # .pipe($.htmlhint.reporter())
     .pipe(gulp.dest(paths.dist.root))
     .pipe(browserSync.stream())  
 
