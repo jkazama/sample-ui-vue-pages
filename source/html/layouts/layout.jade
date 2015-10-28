@@ -27,7 +27,7 @@ html(lang="ja")
               i.fa.fa-fw.fa-use
               |  アカウント情報
             li.divider
-            li: a(href="#" v-on="click: logout")
+            li: a(href="#" @click.prevent="logout")
               i.fa.fa-fw.fa-sign-out
               |  ログアウト
     .container
