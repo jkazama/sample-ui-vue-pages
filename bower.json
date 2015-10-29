@@ -1,6 +1,6 @@
 {
   "name": "sample-ui-vue-pages",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "main": "source/js/variables.js",
   "dependencies": {
@@ -10,6 +10,6 @@
     "bootstrap-sass-official": "~3.3.5",
     "bootstrap-datepicker": "~1.4.0",
     "fontawesome": "~4.4.0",
-    "vue": "~1.0.1"
+    "vue": "~1.0.3"
   }
 }

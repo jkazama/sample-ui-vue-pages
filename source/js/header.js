@@ -15,7 +15,13 @@ export default new Vue(new Option.ComponentBuilder({
     checkLogin: function(success) {
       let failure = (err) => {
         Lib.Log.debug('ログイン情報を確認できませんでした')
-        location.href = "/timeout.html"
+        this.logined = false
+        if (this.sessionValue()) {
+          this.logoutSession()
+          location.href = "/timeout.html"
+        } else {
+          location.href = "/login.html"
+        }
       }
       Lib.Ajax.get(`${Param.Api.root}/account/loginStatus`, {}, success, failure)
     },
