@@ -6,11 +6,11 @@ block content
     .panel.panel-default.l-panel-login
       .panel-heading ログインフォーム
       .panel-body
-        .alert.l-message
-        input.form-control.l-model-loginId.l-row(type="text" placeholder="ログインID" v-model="loginId" @keydown.enter="login")
-        input.form-control.l-model-password(type="password" placeholder="パスワード" v-model="password" @keydown.enter="login")
+        div(v-message="global")
+        input.form-control.l-row(type="text" placeholder="ログインID" v-model="loginId" @keydown.enter="login")
+        input.form-control(type="password" placeholder="パスワード" v-model="password" @keydown.enter="login")
       .panel-footer
-        button.btn.btn-block.btn-primary(@click="login")
+        button.btn.btn-block.btn-primary(@click="login" v-disable:spinner="updating")
           i.fa.fa-fwfa-lg.fa-sign-in
           | 　ログイン
     .alert.alert-warning サーバ側（サンプル実装版）の認証モードを有効にした時は sample/sample でログインしてください。
