@@ -1,4 +1,7 @@
-// ### Vue向け オプションビルダー ###
+/*----------------------------------
+ - vue-filter.js -
+ Vue.jsのコンストラクタ引数ビルダー
+ ---------------------------------*/
 
 import Param from 'variables'
 import {Level} from 'constants'

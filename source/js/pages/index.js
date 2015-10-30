@@ -1,3 +1,7 @@
+/*----------------------------------
+ - index.js -
+ ----------------------------------*/
+
 // Common
 import "common"
 import Header from "header"

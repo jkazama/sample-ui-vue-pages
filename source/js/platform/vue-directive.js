@@ -1,13 +1,14 @@
+/*----------------------------------
+ - vue-directive.js -
+ Vue.jsのカスタムディレクティブ定義
+ カスタムディレクティブはHTMLエレメントに「v-datepicker」など、新しい拡張属性を加えるものです。
+ 例: <input type="text" v-datepicker="item.testDay">
+ 参考: http://jp.vuejs.org/guide/custom-directive.html
+----------------------------------*/
+
 import {Level} from 'constants'
 import {Event, Style} from 'platform/vue-constants'
 
-
-/** Directive
- * Vue.jsのカスタムディレクティブを定義します。
- * カスタムディレクティブはHTMLエレメントに「v-datepicker」など、新しい拡張属性を加えるものです。
- *# 例: input type="text" v-datepicker="item.testDay"
- * 参考: http://jp.vuejs.org/guide/custom-directive.html
- */
 export default function() {
 
   /**

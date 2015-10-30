@@ -1,3 +1,8 @@
+/*----------------------------------
+ - header.js -
+ ページヘッダ部のモジュール
+ ----------------------------------*/
+
 // Header
 import Param from 'variables'
 import * as Lib from 'platform/plain'

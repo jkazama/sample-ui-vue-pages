@@ -38,18 +38,27 @@ sample-ui-vue-pages
 
 ### 開発の流れ
 
-基本的にAltリソース(.jade/.scss/.js(ES6)[.vue])をWebリソース(.html/.css/.js)へGulpでリアルタイム変換させながら開発をしていきます。
+基本的にテンプレート(.jade/.scss/.js(ES6)[.vue])をWebリソース(.html/.css/.js)へGulp/Webpackでリアルタイム変換させながら開発をしていきます。
 動作確認はGulpで独自にWebサーバを立ち上げた後、ブラウザ上で行います。  
 
-#### Altリソースの解説
+#### 各種テンプレートファイルの解説
 
 - [Jade](http://jade-lang.com/)
 - [Sass (SCSS)](http://sass-lang.com/)
 - [ES6 with Babel](https://babeljs.io/)
 
-#### Altリソースの変更監視 / Webサーバ起動
+#### 各種テンプレートファイルの変更監視 / Webサーバ起動
 
 + コンソールで本ディレクトリ直下へ移動し、「`gulp`」を実行
+
+### 配布用ビルドの流れ
+
+配布リソース生成の流れは開発時と同様ですが、監視の必要が無いことと、配布リソースに対するminifyやrevisonの付与などを行う必要があるため、別タスク（build-prod）で実行します。
+
+#### 配布用Webリソースのビルド / リリース
+
++ コンソールで本ディレクトリ直下へ移動し、「`gulp build-prod`」を実行
++ `public`ディレクトリ直下に出力されたファイルをリリース先のディレクトリへコピー
 
 ### ポリシー
 
@@ -66,6 +75,51 @@ sample-ui-vue-pages
     - 各種アクション等、SEO絡みの考慮が必要無い時はcomponent[.vue]の利用も考える
         - see `js/pages/asset.js`
 
-### TODO
+#### ディレクトリ構成
 
-- ドキュメントリファクタ
+ディレクトリ構成については以下を参照してください。
+
+```
+bower.json                           …　bowerが利用するライブラリ定義
+gulpfile.coffee                      … gulp実行時に利用されるビルドファイル
+package.json                         …　node.jsがgulp実行時に利用するライブラリ定義
+public                               … 配布公開リソース(自動生成)
+  css                                … CSS
+    - style.css                      … source/css直下のリソース
+    - vendor.css                     … bower経由の外部CSSライブラリ
+  fonts                              …　アイコンフォント
+  js                                 …　JavaScript(ES5)
+    - [page].js                      … source/js/pages直下のリソース(Webpackで生成)
+    - vendor.js                      … Bower経由の外部JSライブラリ
+  [page].html                        … source/html直下のリソース
+source
+  css                                … CSSテンプレートファイル(SCSS)
+  html                               …　HTMLテンプレートファイル(Jade)
+  js
+    components                       … 各ページから利用されるコンポーネント
+    pages                            … ページ毎に利用されるJSファイル
+    platform                         … プロジェクト内ライブラリ
+    - common.js                      … ページ横断的に利用されるモジュール
+    - header.js                      … ページヘッダ部のモジュール
+  static                             … 画像等コンパイル不要な静的リソースファイル
+```
+
+※gulpコマンドを実行して変更監視を有効にしておくと、source配下のリソースを修正すると、リアルタイムでpublic直下のファイルが更新されていきます。
+
+### 依存ライブラリ
+
+| ライブラリ               | バージョン | 用途/追加理由 |
+| ----------------------- | -------- | ------------- |
+| `vue` 　　　　　　　　　　　　　　　  | 1.0.+    | アプリケーションのMVVM機能を提供 |
+| `vue-router`             | 0.7.+    | Vue.jsのSPAルーティングサポート |
+| `jquery`　　　　　　　　　　　　　  | 2.1.+    | DOM操作サポート |
+| `lodash` 　　　　　　　　　　　　  | 3.10.+    | 汎用ユーティリティライブラリ |
+| `moment` 　　　　　　　　　　　　  | 2.10.+    | 日時ライブラリ |
+| `bootstrap-sass-official` | 3.3.+    | CSSフレームワーク |
+| `bootstrap-datepicker`    | 1.4.+    | 日時入力ライブラリ |
+| `fontawesome`             | 4.4.+    | フォントアイコンライブラリ |
+
+### License
+
+本サンプルのライセンスはコード含めて全て*MIT License*です。  
+プロジェクト立ち上げ時のベース実装サンプルとして気軽にご利用ください。
