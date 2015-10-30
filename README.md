@@ -44,8 +44,11 @@ sample-ui-vue-pages
 #### 各種テンプレートファイルの解説
 
 - [Jade](http://jade-lang.com/)
+    - HTMLを生成するテンプレートツール。公式サイトTOPにある簡素な記法が特徴。
 - [Sass (SCSS)](http://sass-lang.com/)
+    - CSS表記を拡張するツール。変数やmixin、ネスト表記などが利用可能。
 - [ES6 with Babel](https://babeljs.io/)
+    - ES6用のPolyfill。ES5でもES6風に記述が可能。
 
 #### 各種テンプレートファイルの変更監視 / Webサーバ起動
 
