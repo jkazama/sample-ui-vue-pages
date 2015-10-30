@@ -83,21 +83,21 @@ sample-ui-vue-pages
 ディレクトリ構成については以下を参照してください。
 
 ```
-bower.json                           …　bowerが利用するライブラリ定義
+bower.json                           … bowerが利用するライブラリ定義
 gulpfile.coffee                      … gulp実行時に利用されるビルドファイル
-package.json                         …　node.jsがgulp実行時に利用するライブラリ定義
+package.json                         … node.jsがgulp実行時に利用するライブラリ定義
 public                               … 配布公開リソース(自動生成)
   css                                … CSS
     - style.css                      … source/css直下のリソース
     - vendor.css                     … bower経由の外部CSSライブラリ
-  fonts                              …　アイコンフォント
-  js                                 …　JavaScript(ES5)
+  fonts                              … アイコンフォント
+  js                                 … JavaScript(ES5)
     - [page].js                      … source/js/pages直下のリソース(Webpackで生成)
     - vendor.js                      … Bower経由の外部JSライブラリ
   [page].html                        … source/html直下のリソース
 source
   css                                … CSSテンプレートファイル(SCSS)
-  html                               …　HTMLテンプレートファイル(Jade)
+  html                               … HTMLテンプレートファイル(Jade)
   js
     components                       … 各ページから利用されるコンポーネント
     pages                            … ページ毎に利用されるJSファイル
@@ -107,17 +107,17 @@ source
   static                             … 画像等コンパイル不要な静的リソースファイル
 ```
 
-※gulpコマンドを実行して変更監視を有効にしておくと、source配下のリソースを修正すると、リアルタイムでpublic直下のファイルが更新されていきます。
+※gulpコマンドを実行して変更監視を有効にしておくと、source配下のリソースを修正した際にリアルタイムでpublic直下のファイルが更新されていきます。
 
 ### 依存ライブラリ
 
-| ライブラリ               | バージョン | 用途/追加理由 |
-| ----------------------- | -------- | ------------- |
-| `vue` 　　　　　　　　　　　　　　　  | 1.0.+    | アプリケーションのMVVM機能を提供 |
-| `vue-router`             | 0.7.+    | Vue.jsのSPAルーティングサポート |
-| `jquery`　　　　　　　　　　　　　  | 2.1.+    | DOM操作サポート |
-| `lodash` 　　　　　　　　　　　　  | 3.10.+    | 汎用ユーティリティライブラリ |
-| `moment` 　　　　　　　　　　　　  | 2.10.+    | 日時ライブラリ |
+| ライブラリ                    | バージョン   | 用途/追加理由 |
+| ------------------------- | -------- | ------------- |
+| `vue`                     | 1.0.+    | アプリケーションのMVVM機能を提供 |
+| `vue-router`              | 0.7.+    | Vue.jsのSPAルーティングサポート |
+| `jquery`                  | 2.1.+    | DOM操作サポート |
+| `lodash`                  | 3.10.+   | 汎用ユーティリティライブラリ |
+| `moment`                  | 2.10.+   | 日時ライブラリ |
 | `bootstrap-sass-official` | 3.3.+    | CSSフレームワーク |
 | `bootstrap-datepicker`    | 1.4.+    | 日時入力ライブラリ |
 | `fontawesome`             | 4.4.+    | フォントアイコンライブラリ |
