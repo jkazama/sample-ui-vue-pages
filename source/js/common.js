@@ -1,3 +1,8 @@
+/*----------------------------------
+ - common.js -
+ ページ毎に共通で実行される処理
+  ----------------------------------*/
+
 // JQuery Dependency
 import jquery from 'platform/jquery'
 jquery()

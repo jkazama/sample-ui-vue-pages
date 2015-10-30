@@ -2,6 +2,7 @@
  - jquery.js -
  JQueryライブラリの拡張実装
 ----------------------------------*/
+
 export default function() {
   // 対象となるコントロールを無効化します
   $.fn.enable = function() { this.attr("disabled", false) }

@@ -1,3 +1,7 @@
+/*----------------------------------
+ - asset.js -
+ ----------------------------------*/
+
 // Common
 import "common"
 import Header from "header"

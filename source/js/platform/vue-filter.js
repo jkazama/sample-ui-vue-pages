@@ -1,10 +1,10 @@
-/**
- * Filter
- * Vue.jsのカスタムフィルタを定義します。
- * カスタムフィルタは「v-text」などで変数を表示する際に値のフォーマッティングなどを可能にします。
- * 例: v-text="createDay | day"
- * 参考: http://jp.vuejs.org/guide/custom-filter.html
- */
+/*----------------------------------
+ - vue-filter.js -
+ Vue.jsのカスタムフィルタ定義
+ カスタムフィルタは「v-text」などで変数を表示する際に値のフォーマッティングなどを可能にします。
+ 例: <span v-text="createDay | day">
+ 参考: http://jp.vuejs.org/guide/custom-filter.html
+----------------------------------*/
 export default function() {
 
   // # Text Filter
