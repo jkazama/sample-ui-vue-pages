@@ -268,7 +268,10 @@ export class PanelListBuilder extends ComponentBuilder {
     return {
       initialSearch: true,
       paging: false,
-      el: { scrollBody: '.panel-body' }
+      el: { 
+        scrollBody: '.panel-body',
+        pagingBody: '.l-list-body'
+      }
     }
   }
   // 初期化時のdata情報
@@ -289,7 +292,7 @@ export class PanelListBuilder extends ComponentBuilder {
     initialized: function() {
       // イベント登録
       if (this.ext().paging) {
-        this.$panels.body.onBottom(() => this.next())
+        $(this.ext().el.pagingBody).onBottom(() => this.next())
       }
       // 初期化
       if (this.ext().initialSearch) this.search()
@@ -326,12 +329,12 @@ export class PanelListBuilder extends ComponentBuilder {
       Lib.Log.debug(`- search url: ${this.apiUrl(this.searchPath())}`)
       let param = this.searchData()
       if (0 < Object.keys(param).length) Lib.Log.debug(param)
-      if (this.ext().paging) {
-        param["page.page"] = this.page.page
-      }
       if (append === false) {
         this.clear()
         if (this.page) this.page.page = 1
+      }
+      if (this.ext().paging) {
+        param["page.page"] = this.page.page
       }
       this.updating = true
       let success = (data) => {
