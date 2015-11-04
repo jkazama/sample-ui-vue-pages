@@ -13,18 +13,19 @@ export default function() {
   // jquery.bottom
   // スクロール末端に到達したイベント[bottom]を追加しています。
   $.fn.bottom = function(options) {
-    defaults = { proximity: 0 }
+    var defaults = { proximity: 0 }
     options = $.extend(defaults, options)
-    this.each(function(obj) {
-      $(obj).bind("scroll", () => {
-        if (obj === window) {
+    return this.each(function() {
+      $(this).bind("scroll", () => {
+        var scrollHeight, scrollPosition;
+        if (this === window) {
           scrollHeight = $(document).height()
         } else {
-          scrollHeight = $(obj)[0].scrollHeight
+          scrollHeight = $(this)[0].scrollHeight
         }
-        scrollPosition = $(obj).height() + $(obj).scrollTop()
+        scrollPosition = $(this).height() + $(this).scrollTop()
         if ((scrollHeight - scrollPosition) / scrollHeight <= options.proximity) {
-          $(obj).trigger("bottom")
+          $(this).trigger("bottom")
         }
       })
       return false
@@ -33,7 +34,7 @@ export default function() {
 
   // スクロール末端に到達したイベント[bottom]の受信処理
   $.fn.onBottom = function(fn) {
-    thisbottom({ proximity: 0.05 })
+    this.bottom({ proximity: 0.05 })
     this.on("bottom", fn)
   }
 
