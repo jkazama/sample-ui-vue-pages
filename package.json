@@ -1,6 +1,6 @@
 {
   "name": "sample-ui-vue-pages",
-  "version": "0.3.1",
+  "version": "0.3.3",
   "description": "Vue.js Boilerplate [Multi Page]",
   "main": "source/js/variables.js",
   "scripts": {
@@ -42,9 +42,13 @@
     "css-loader": "~0.21.0",
     "style-loader": "~0.13.0",
     "sass-loader": "~2.0.1",
+    "node-sass": "~3.3.0",
     "jade-loader": "~0.7.1",
     "babel-loader": "~5.3.2",
     "vue-loader": "~5.0.0",
+    "babel-runtime": "~5.8.25",
+    "vue-html-loader": "~1.0.0",
+    "vue-hot-reload-api": "~1.2.0",
     "browser-sync": "~2.8.2"
   },
   "dependencies": {
