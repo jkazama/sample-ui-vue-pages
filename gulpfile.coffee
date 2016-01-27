@@ -100,11 +100,12 @@ gulp.task "build:webpack", ->
       ]
   gulp.src([resource.src.webpack.babel])
     .pipe(named())
+    .pipe($.plumber())
     .pipe(webpackStream({
       watch: !production
       module:
         loaders: [
-          {test: /\.js$/, loader: "babel?blacklist[]=regenerator"}
+          {test: /\.js$/, loader: "babel?optional[]=runtime"}
           {test: /\.vue$/, loader: "vue"}
         ]
       resolve:

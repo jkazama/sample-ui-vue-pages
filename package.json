@@ -1,6 +1,6 @@
 {
   "name": "sample-ui-vue-pages",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Vue.js Boilerplate [Multi Page]",
   "main": "source/js/variables.js",
   "scripts": {
