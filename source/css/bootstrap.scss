@@ -14,8 +14,8 @@ $panel-body-padding: .6em;
 $panel-heading-padding: .4em .6em;
 $panel-default-text: #666;
 
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap-sprockets";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap-sprockets";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap";
 
 // ### basic ###
 

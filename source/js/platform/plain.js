@@ -31,68 +31,75 @@ export class Log {
 
 // ## 非同期API要求ユーティリティ
 // JSON形式での接続前提とします。
-$.ajaxSetup({
-  dataType: "json",
-  cache: false,
-  timeout: Param.Api.timeout,
-  xhrFields: { withCredentials: true }
-})
+import request from 'superagent'
 export class Ajax {
+  static options(request) {
+    request.withCredentials()
+    request.accept('json')
+    request.timeout(Param.Api.timeout)
+    request.set('X-Requested-With', 'XMLHttpRequest')
+    request.set('Expires', '-1')
+    request.set('Cache-Control', 'no-cache,no-store,must-revalidate,max-age=-1,private')
+  }
   // GET形式のPromiseを返します。
   static promiseGet(url, data = {}) {
-    return Promise.resolve($.ajax({
-      type: "GET",
-      url: this.requestUrl(url),
-      data: data
-    }))
+    return new Promise((resolve, reject) => {
+      request
+        .get(this.requestUrl(url))
+        .query(data)
+        .use(this.options)
+        .end((err, res) => res && res.ok ? resolve(res) : reject(err))
+    })
   }
   // GET形式でサーバ側へリクエスト処理をします。
   static get(url, data = {}, success = this.handleSuccess, failure = this.handleFailure) {
     this.promiseGet(url, data).then((res) => {
-      if (success) success(res)
-    }).catch((xhr) => {
-      this.handlePreFailure(xhr)
-      if (failure) failure(xhr)
+      if (success) success(res.body)
+    }).catch((err) => {
+      this.handlePreFailure(err)
+      if (failure) failure(err)
     })
   }
   // POST形式のPromiseを返します。
   static promisePost(url, data = {}) {
-    return Promise.resolve($.ajax({
-      type: "POST",
-      url: this.requestUrl(url),
-      data: data
-    }))
+    return new Promise((resolve, reject) => {
+      request
+        .post(this.requestUrl(url))
+        .type('form')
+        .send(data)
+        .use(this.options)
+        .end((err, res) => res && res.ok ? resolve(res) : reject(err))
+    })
   }
   // POST形式でサーバ側へリクエスト処理をします。
   static post(url, data = {}, success = this.handleSuccess, failure = this.handleFailure) {
     this.promisePost(url, data).then((res) => {
-      if (success) success(res)
-    }).catch((xhr) => {
-      this.handlePreFailure(xhr)
-      if (failure) failure(xhr)
+      if (success) success(res.body)
+    }).catch((err) => {
+      this.handlePreFailure(err)
+      if (failure) failure(err)
     })
   }
   // アップロード形式のPromiseを返します。
   static promiseUpload(url, data = {}) {
     let form = new FormData()
     Object.keys(data).forEach((key) => form.append(key, data[key]))
-    return Promise.resolve($.ajax({
-      type: 'POST',
-      url: this.requestUrl(url),
-      processData: false,
-      contentType: false,
-      data: form,
-      timeout: Param.Api.timeoutUpload
-    }))
+    return new Promise((resolve, reject) => {
+      request
+        .post(this.requestUrl(url))
+        .send(form)
+        .use(this.options)
+        .end((err, res) => res && res.ok ? resolve(res) : reject(err))
+    })
   }
   // 指定したURLに対するアップロード処理をします。
   // 指定されたハッシュデータはFormDataへ紐付けられて送信されます。
   static upload(url, data = {}, success = this.handleSuccess, failure = this.handleFailure) {
     this.promiseUpload(url, data).then((res) => {
-      if (success) success(res)
-    }).catch((xhr) => {
-      this.handlePreFailure(xhr)
-      if (failure) failure(xhr)
+      if (success) success(res.body)
+    }).catch((err) => {
+      this.handlePreFailure(err)
+      if (failure) failure(err)
     })
   }
   // 接続先URLパスを整形します。
@@ -100,27 +107,34 @@ export class Ajax {
   // リクエスト成功時の標準処理を行います。
   static handleSuccess(data) { Log.info(data) }
   // リクエスト失敗時の事前処理を行います。
-  static handlePreFailure(xhr) {
-    Log.warn(xhr)
-    switch(xhr.status) {
-      case 0:
-        Log.error('接続先が見つかりませんでした')
-        break
-      case 200:
-        Log.error('戻り値の解析に失敗しました。JSON形式で応答が返されているか確認してください')
-        break
-      case 400:
-        Log.warn(xhr.statusText)
-        break
-      case 401:
-        Log.error('機能実行権限がありません')
-        break
-      default:
-        Log.error(xhr.statusText)
+  static handlePreFailure(err) {
+    if (err.response) {
+      let xhr = err.response.xhr
+      Log.warn(xhr)
+      switch(xhr.status) {
+        case 0:
+          Log.error('接続先が見つかりませんでした')
+          break
+        case 200:
+          Log.error('戻り値の解析に失敗しました。JSON形式で応答が返されているか確認してください')
+          break
+        case 400:
+          Log.warn(xhr.statusText)
+          break
+        case 401:
+          Log.error('機能実行権限がありません')
+          break
+        default:
+          Log.error(xhr.statusText)
+      }
+    } else {
+      Log.error(err)
     }
   }
   // リクエスト失敗時の処理を行います。
-  static handleFailure(xhr) { /* nothing. */ }
+  static handleFailure(err) {
+    // nothing.
+  }
 }
 
 // ## UI側セッションユーティリティ
