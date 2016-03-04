@@ -65,11 +65,10 @@ sample-ui-vue-pages
 
 ### ポリシー
 
-- JS / CSS の外部ライブラリは bower で管理する
-    - グローバルスコープの汚染を許容する
+- JS / CSS の外部ライブラリは npm で管理する
+    - jQuery や Bootstrap 等、グローバルスコープの汚染を許容するものはビルド済みリソースをそのまま流用する
 - プロジェクト固有の JS は Webpack を利用して生成する
     - グローバルスコープの汚染を許容せずにモジュールベースで開発する
-    - 外部ライブラリのアクセスは従来通りグローバルな名前空間を用いる
 - [React.js版](https://github.com/jkazama/sample-ui-react) と異なり、 DOM 表示後の操作を中心とした従来型の実装方式
     - コンポーネント粒度は粗めでなるべく素の HTML を触れるように
     - 上記前提のため、 jQuery を用いた DOM 操作も許容
@@ -83,17 +82,16 @@ sample-ui-vue-pages
 ディレクトリ構成については以下を参照してください。
 
 ```
-bower.json                           … bower が利用するライブラリ定義
-gulpfile.coffee                      … gulp 実行時に利用されるビルドファイル
-package.json                         … node.js が gulp 実行時に利用するライブラリ定義
+gulpfile.babel.js                    … gulp 実行時に利用されるビルドファイル
+package.json                         … npm 関連定義
 public                               … 配布公開リソース(自動生成)
   css                                … CSS
     - style.css                      … source / css 直下のリソース
-    - vendor.css                     … bower 経由の外部 CSS ライブラリ
+    - vendor.css                     … ビルド済み外部 CSS ライブラリ
   fonts                              … アイコンフォント
   js                                 … JavaScript ( ES5 )
     - [page].js                      … source / js / pages 直下のリソース ( Webpack で生成 )
-    - vendor.js                      … Bower 経由の外部 JS ライブラリ
+    - vendor.js                      … ビルド済み外部 JS ライブラリ
   [page].html                        … source / html 直下のリソース
 source
   css                                … CSS テンプレートファイル ( SCSS )
@@ -115,7 +113,7 @@ source
 | ------------------------- | -------- | ------------- |
 | `vue`                     | 1.0.+    | アプリケーションの MVVM 機能を提供 |
 | `jquery`                  | 2.2.+    | DOM 操作サポート |
-| `lodash`                  | 3.10.+   | 汎用ユーティリティライブラリ |
+| `lodash`                  | 4.6.+    | 汎用ユーティリティライブラリ |
 | `moment`                  | 2.11.+   | 日時ライブラリ |
 | `bootstrap-sass-official` | 3.3.+    | CSS フレームワーク |
 | `bootstrap-datepicker`    | 1.4.+    | 日時入力ライブラリ |
