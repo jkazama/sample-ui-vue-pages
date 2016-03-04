@@ -208,7 +208,7 @@ export class ComponentBuilder {
       }
     },
     parseApiError: function(error) {
-      let errs = JSON.parse(error.responseText)
+      let errs = JSON.parse(error.response.text)
       let parsed = {global: null, columns: []}
       Object.keys(errs).forEach((err) => {
         if (err) parsed.columns.push({key: err, values: errs[err]})
