@@ -145,7 +145,7 @@ gulp.task('build:static', () => {
   const libcss = resource.vendor.css
   gulp.src(Object.keys(libcss).map((key) => libcss[key]))
     .pipe($.concat("vendor.css"))
-    .pipe($.if(production, $.uglify()))
+    .pipe($.if(production, $.cssmin()))
     .pipe(gulp.dest(paths.dist.css))
   const libjs = resource.vendor.js
   gulp.src(Object.keys(libjs).map((key) => libjs[key]))
