@@ -37,9 +37,16 @@ export class Ajax {
     request.withCredentials()
     request.accept('json')
     request.timeout(Param.Api.timeout)
+    // for nocache
     request.set('X-Requested-With', 'XMLHttpRequest')
     request.set('Expires', '-1')
     request.set('Cache-Control', 'no-cache,no-store,must-revalidate,max-age=-1,private')
+    let time = Date.now().toString()
+    if (request._query !== undefined && request._query[0]) {
+      request._query[0] += '&' + time
+    } else {
+      request._query = [time]
+    }
   }
   // GET形式のPromiseを返します。
   static promiseGet(url, data = {}) {
