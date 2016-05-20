@@ -111,7 +111,7 @@ export default function() {
   Vue.directive('identity', {
     bind: function() {
       $(this.el).addClass(`${Style.ColumnPrefix}-id`)
-      vm.$watch('updateFlag', (updateFlag) => {
+      this.vm.$watch('updateFlag', (updateFlag) => {
         if (updateFlag) {
           $(this.el).disable()
         } else {
@@ -150,7 +150,7 @@ export default function() {
       this.$input = $(this.el).datepicker(options)
       // JQuery側データ変更検知
       this.$input.on('change', () => {
-        day = this.$input.val()
+        let day = this.$input.val()
         this.set(day ? moment(day, this.format).format(this.vmFormat) : null)
       })
     },
