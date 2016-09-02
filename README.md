@@ -14,6 +14,9 @@ sample-ui-vue-pages
 - [sample-aspnet-api](https://github.com/jkazama/sample-aspnet-api)
 - [sample-php7-laravel](https://github.com/jkazama/sample-php7-laravel)
 
+---
+SPA 実装については [sample-ui-vue](https://github.com/jkazama/sample-ui-vue) 、 Flux 実装については [sample-ui-vue-flux](https://github.com/jkazama/sample-ui-vue-flux) を参照してください。
+
 #### ビルド / テスト稼働環境構築
 
 ビルドは [Node.js](http://nodejs.jp/) + [Webpack](https://webpack.github.io/) + [Gulp](http://gulpjs.com/) で行います。以下の手順でインストールしてください。
@@ -22,6 +25,7 @@ sample-ui-vue-pages
 1. 「 `npm install -g gulp` 」 を実行して Gulp をインストール。
     - Mac ユーザは 「 `sudo npm install -g gulp` 」 で。
 1. コンソールで本ディレクトリ直下へ移動後、 「 `npm install` 」 を実行して Gulp ライブラリをインストール。
+    - node-sass あたりでビルドに失敗した場合は、 「 `npm uninstall node-sass` 」 を実行してから再度試してみてください。
 
 ### 動作確認
 

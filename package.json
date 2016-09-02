@@ -2,7 +2,7 @@
   "name": "sample-ui-vue-pages",
   "version": "1.0.0",
   "description": "Vue.js Boilerplate [Multi Page]",
-  "main": "source/js/variables.js",
+  "main": "src/js/common.js",
   "scripts": {
     "start": "gulp",
     "build": "gulp build-prod"
