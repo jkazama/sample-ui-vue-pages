@@ -1,6 +1,6 @@
 const root = {
-  src:   `${__dirname}/source`,
-  dist:  `${__dirname}/public`,
+  src:   `${__dirname}/src`,
+  dist:  `${__dirname}/dist`,
   tmp:   `${__dirname}/tmp`
 }
 
@@ -24,10 +24,9 @@ const paths = {
 }
 const resource = {
   src: {
-    jade: `${paths.src.html}/**/*.jade`,
+    pug: `${paths.src.html}/**/*.pug`,
     webpack: {
-      babel: `${paths.src.js}/**/*.js`,
-      vue:   `${paths.src.js}/**/*.vue`
+      babel: `${paths.src.js}/entry/**/*.js`
     },
     sass:   `${paths.src.css}/**/*.s+(a|c)ss`,
     static: `${paths.src.static}/**/*`
@@ -38,13 +37,7 @@ const resource = {
       lodash:     `${paths.node.modules}/lodash/lodash.js`,
       moment:     `${paths.node.modules}/moment/moment.js`,
       vue:        `${paths.node.modules}/vue/dist/vue.js`,
-      vueRouter:  `${paths.node.modules}/vue-router/dist/vue-router.js`,
       bootstrap:  `${paths.node.modules}/bootstrap-sass/assets/javascripts/bootstrap.js`,
-      datepicker: `${paths.node.modules}/bootstrap-datepicker/dist/js/bootstrap-datepicker.js`,
-      datelocale: `${paths.node.modules}/bootstrap-datepicker/dist/locales/bootstrap-datepicker.ja.min.js`
-    },
-    css: {
-      datepicker: `${paths.node.modules}/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css`
     },
     fontawesome: `${paths.node.modules}/font-awesome/fonts/**/*`
   }
@@ -71,7 +64,7 @@ gulp.task('default', ['build', 'server'])
 
 //## build for developer
 gulp.task('build', (callback) =>
-  runSequence('clean', ['build:jade', 'build:sass', 'build:webpack', 'build:static'], callback)
+  runSequence('clean', ['build:pug', 'build:sass', 'build:webpack', 'build:static'], callback)
 )
 
 //## build production
@@ -92,15 +85,17 @@ gulp.task('revision', (callback) =>
   runSequence('revision:clean', 'revision:append', 'clean', 'revision:copy', 'revision:clean', callback)
 )
 
-// compile Webpack [ ES6(Babel) / Vue -> SPA(main.js) ]
+// compile Webpack [ ES6(Babel) / Vue -> Multipage ]
 gulp.task('build:webpack', () => {
   process.env.NODE_ENV = (production == true) ? 'production' : 'development'
   let plugins = [ new webpack.optimize.DedupePlugin() ]
   if (production) plugins.push(new webpack.optimize.UglifyJsPlugin({compress: { warnings: false　}}))
-  return gulp.src([resource.src.webpack.babel, resource.src.webpack.vue])
+  return gulp.src([resource.src.webpack.babel])
     .pipe(named())
     .pipe($.plumber())
     .pipe(webpackStream({
+      devtool: '#source-map',
+      output: {filename: '[name].js'},
       watch: !production,
       module: {
         loaders: [
@@ -115,15 +110,15 @@ gulp.task('build:webpack', () => {
       plugins: plugins
      }, webpack))
     .pipe(gulp.dest(paths.dist.js))
-    .pipe(browserSync.stream())  
+    .pipe(browserSync.stream())
 })
 
-// compile Jade -> HTML
-gulp.task('build:jade', () => {
-  return gulp.src(resource.src.jade)
+// compile Pug -> HTML
+gulp.task('build:pug', () => {
+  return gulp.src(resource.src.pug)
     .pipe($.plumber())
-    .pipe($.jade())
-    //.pipe($.htmlhint())
+     .pipe($.pug())
+    // .pipe($.htmlhint())
     //.pipe($.htmlhint.reporter())
     .pipe(gulp.dest(paths.dist.root))
     .pipe(browserSync.stream())  
@@ -142,14 +137,9 @@ gulp.task('build:sass', () => {
 
 // copy Static Resource
 gulp.task('build:static', () => {
-  const libcss = resource.vendor.css
-  gulp.src(Object.keys(libcss).map((key) => libcss[key]))
-    .pipe($.concat("vendor.css"))
-    .pipe($.if(production, $.cssmin()))
-    .pipe(gulp.dest(paths.dist.css))
   const libjs = resource.vendor.js
   gulp.src(Object.keys(libjs).map((key) => libjs[key]))
-    .pipe($.concat("vendor.js"))
+    .pipe($.concat("vendor.bundle.js"))
     .pipe($.if(production, $.uglify()))
     .pipe(gulp.dest(paths.dist.js))
   gulp.src(resource.vendor.fontawesome)
@@ -165,7 +155,7 @@ gulp.task('server', () => {
     notify: false
   })
   // watch for source
-  gulp.watch(resource.src.jade,   ['build:jade'])
+  gulp.watch(resource.src.pug,    ['build:pug'])
   gulp.watch(resource.src.sass,   ['build:sass'])
   gulp.watch(resource.src.static, ['build:static'])
 })
