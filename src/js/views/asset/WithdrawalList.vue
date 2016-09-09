@@ -17,11 +17,18 @@
 </template>
 
 <script lang="babel">
+import {Action} from "constants"
 import ViewList from "views/mixins/view-list"
+import api from "api/asset"
 export default {
   mixins: [ViewList],
-  props: {
-    path: {default: "/asset/cio/unprocessedOut/"}
+  mounted() {
+    EventEmitter.$on(Action.UpdateAsset, v => this.search())
+  },
+  methods: {
+    action(data, success, failure) {
+      api.findUnprocessedOut(data, success, failure)
+    }
   }
 }
 </script>

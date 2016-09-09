@@ -13,14 +13,10 @@ export const Level = {
 
 // イベント定数
 export const Event = {
-  Messages: "vue-event-messages",
-  Login: 'vue-event-login',
-  Logout: 'vue-event-logout'
+  Messages: "vue-event-messages"
 }
 
 // 実行アクション定数
 export const Action = {
-  Success: 'vue-action-success',
-  Failure: 'vue-action-failure',
-  SearchSuccess: 'vue-action-search-success'
+  UpdateAsset: 'vue-action-update-asset'
 }

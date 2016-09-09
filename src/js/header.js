@@ -6,12 +6,18 @@
 // Header
 import * as Lib from 'platform/plain'
 import ViewBasic from "views/mixins/view-basic"
+import api from "api/context"
 const header = new Vue({
   el: '.l-nav-header',
   mixins: [ViewBasic],
   data() {
     return {
       logined: false
+    }
+  },
+  computed: {
+    user() {
+      return this.sessionValue() 
     }
   },
   beforeMount() {
@@ -29,12 +35,12 @@ const header = new Vue({
           location.href = "/login.html"
         }
       }
-      this.apiGet('/account/loginStatus', {}, success, failure)
+      api.loginStatus(success, failure)
     },
     logout(e) {
       this.logined = false
       this.logoutSession()
-      this.apiPost('/logout', {}, ((v) => true), ((e)=> false))
+      api.logout()
       Lib.Log.debug('ログアウトしました')
       location.href = "/login.html"
     }

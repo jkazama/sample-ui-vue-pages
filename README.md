@@ -97,6 +97,7 @@ src
   css                                … CSS テンプレートファイル ( SCSS )
   html                               … HTML テンプレートファイル ( Pug )
   js
+    api                              … API処理 (Vue.js 非依存)
     components                       … 各ページから利用されるコンポーネント
     entry                            … ページ毎に利用される JS ファイル
     filters                          … フィルタ関数

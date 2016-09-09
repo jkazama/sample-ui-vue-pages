@@ -5,10 +5,12 @@
 
 import {Level} from "constants"
 
+const debug = process.env.NODE_ENV !== 'production'
+
 export default {
   //#### Param [System]
   System: {
-    logLevel: Level.DEBUG
+    logLevel: debug ? Level.DEBUG : Level.INFO
   },
   //#### Param [Session]
   Session: {
@@ -23,13 +25,10 @@ export default {
 
     //#### for local-api-test
     //## API base path to Application Server
-    root: 'http://localhost:8080/api'
+    root: debug ? 'http://localhost:8080/api' : '/api'
 
     //#### for remote-api-test
     //## API base path to Application Server
     //root: 'http://192.168.xxx.xxx/api'
-
-    //#### for production
-    //root: '/api'
   }
 }

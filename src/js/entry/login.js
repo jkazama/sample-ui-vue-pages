@@ -9,6 +9,7 @@ import "common"
 import {Level} from "constants"
 import * as Lib from "platform/plain"
 import ViewBasic from "views/mixins/view-basic"
+import api from "api/context"
 const app = new Vue({
   mixins: [ViewBasic],
   data() {
@@ -37,10 +38,10 @@ const app = new Vue({
             this.messageError("要求処理に失敗しました")
         }
       }
-      this.apiPost("/login", {loginId: this.loginId, password: this.password}, success, failure)
+      api.login({loginId: this.loginId, password: this.password}, success, failure)
     },
     forward() {
-      this.apiGet("/account/loginAccount", {}, (v) => {
+      api.loginAccount(v => {
         this.loginSession(v)
         location.href = "index.html"
       })

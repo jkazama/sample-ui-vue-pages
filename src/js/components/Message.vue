@@ -30,11 +30,12 @@ div
   div(v-if="!global")
     div(:class="{'input-group': message, 'l-message-group': message}")
       slot
-      .l-message-group-item.text-danger(v-text="message" v-if="message")
+      .l-message-group-item(:class="[classText]" v-text="message" v-if="message")
 </template>
 
 <script lang="babel">
 import {Level, Event} from 'constants'
+import Vue from 'vue'
 export default {
   name: 'message',
   data() {
@@ -86,11 +87,15 @@ export default {
     },
     columnError(messages) {
       if (messages && messages.columns && 0 < messages.columns.length) {
-        let err = Array.from(messages.columns).find((err) =>
-          (messages.level === Level.WARN || messages.level === Level.ERROR) && err.key === this.field)
-        if (err) return err.values[0]
+        let column = Array.from(messages.columns).find((v) => v.key === this.field)
+        if (!column) return null
+        let type = this.messageType(column.level)
+        this.classText = `text-${type}`
+        return column ? column.messages[0] : null
+      } else {
+        this.classText = null
+        return null
       }
-      return null
     }
   }
 }

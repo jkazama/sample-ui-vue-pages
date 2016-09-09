@@ -1,6 +1,7 @@
 import Param from 'variables'
-import {Level, Event, Action, Style} from 'constants'
+import {Level, Event} from 'constants'
 import * as Lib from "platform/plain"
+import Vue from "vue"
 
 import Message from "components/Message.vue"
 import CommandButton from "components/CommandButton.vue"
@@ -15,10 +16,6 @@ import Modal from "components/Modal.vue"
  * ---
  * - 標準API
  * clear: グローバルエラー及び/コントロールエラーを初期化する
- * apiGet: APIへのGET処理を行う
- * apiPost: APIへのPOST処理を行う
- * apiUpload: APIへのファイルアップロード処理(POST)を行う
- * apiUrl: APIプリフィックスを付与したURLを返す
  * apiFailure: API実行時の標準例外ハンドリング
  * file: type=fileの値参照を返す。apiUploadのdata値へ設定する際に利用
  * files: type=fileの値参照一覧を返す。
@@ -55,23 +52,6 @@ export default {
     clearMessage() {
       this.message()
     },
-    // APIへのGET処理を行います
-    apiGet(path, data, success, failure = this.apiFailure) {
-      Lib.Ajax.get(this.apiUrl(path), data, success, failure)
-    },
-    // APIへのPOST処理を行います
-    apiPost(path, data, success, failure = this.apiFailure) {
-      Lib.Ajax.post(this.apiUrl(path), data, success, failure)
-    },
-    // APIへのファイルアップロード処理(POST)を行います
-    // アップロード対象キーの値はfileメソッドを利用して定義するようにしてください
-    apiUpload(path, data, success, failure = this.apiFailure) {
-      Lib.Ajax.upload(this.apiUrl(path), data, success, failure)
-    },
-    // APIプリフィックスを付与したURLを返します。
-    apiUrl(path) {
-      return `${Param.Api.root}${path}`
-    },
     // ファイルオブジェクトを取得します。apiUpload時のdataへ設定するアップロード値を取得する際に使用してください。
     file(query = 'input[type="file"]') {
       return this.files(query)[0]
@@ -107,28 +87,39 @@ export default {
       })
       return ret
     },
-    // API実行時の標準例外ハンドリングを行います。
-    apiFailure(error) {
+    // api Action Support
+    actionSuccess(v, successMessage = "処理が成功しました") {
+      Lib.Log.debug('success')
+      this.message(successMessage, [], Level.INFO)
+    },
+    actionFailure(error) {
+      let message = null
+      let columns = []
+      let level = Level.ERROR
       switch (error.status) {
         case 200:
-          this.messageError("要求処理は成功しましたが、戻り値の解析に失敗しました")
+          message = "要求処理は成功しましたが、戻り値の解析に失敗しました"
           break
         case 400:
           let parsed = this.parseApiError(error)
-          this.messageError(parsed.global ? parsed.global : "入力情報を確認してください", parsed.columns, Level.WARN)
+          if (parsed.global) Lib.Log.debug(parsed.global)
+          message = parsed.global ? parsed.global : "入力情報を確認してください"
+          level = Level.WARN
+          columns = parsed.columns
           break
         case 401:
-          this.messageError("機能実行権限がありません")
+          message = "機能実行権限がありません"
           break
         default:
-          this.messageError("要求処理に失敗しました")
+          message = "要求処理に失敗しました"
       }
+      this.message(message, columns, level)
     },
-    parseApiError(error) {
+    parseApiError (error) {
       let errs = JSON.parse(error.response.text)
       let parsed = {global: null, columns: []}
       Object.keys(errs).forEach((err) => {
-        if (err) parsed.columns.push({key: err, values: errs[err]})
+        if (err) parsed.columns.push({key: err, messages: errs[err], level: Level.ERROR})
         else parsed.global = errs[err]
       })
       return parsed
