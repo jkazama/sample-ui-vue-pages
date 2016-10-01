@@ -17,7 +17,8 @@ const header = new Vue({
   },
   computed: {
     user() {
-      return this.sessionValue() 
+      let user = this.sessionValue()
+      return user ? user : {}
     }
   },
   beforeMount() {

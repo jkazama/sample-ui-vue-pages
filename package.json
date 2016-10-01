@@ -17,7 +17,7 @@
     "co": "^4.6.0",
     "superagent": "^2.2.0",
     "lodash": "^4.15.0",
-    "vue": "^2.0.0-rc.4",
+    "vue": "^2.0.0",
     "jquery": "^2.2.0",
     "moment": "^2.14.0",
     "bootstrap-sass": "^3.3.0",
@@ -57,7 +57,7 @@
     "template-html-loader": "^0.0.3",
     "vinyl-named": "~1.1.0",
     "vue-hot-reload-api": "^2.0.0",
-    "vue-loader": "^9.4.0",
+    "vue-loader": "^9.5.0",
     "webpack": "^1.13.0",
     "webpack-stream": "^3.2.0"
   }
