@@ -8,7 +8,7 @@ import ViewBasic from 'views/mixins/view-basic'
 /**
  * 特定情報の登録/変更/削除を前提とした Vue Mixin。
  * 情報に対するCRUD目的のパネルで利用してください。
-  * 本クラスを利用する際は初期化時に以下の設定が必要です。
+ * 本クラスを利用する際は初期化時に以下の設定が必要です。
  * ・actionの実装
  * ---
  * - Props -
