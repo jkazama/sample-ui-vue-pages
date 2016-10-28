@@ -7,7 +7,7 @@ import "common"
 
 // Page ViewModel
 import {Level} from "constants"
-import * as Lib from "platform/plain"
+import {Log} from "platform/plain"
 import ViewBasic from "views/mixins/view-basic"
 import api from "api/context"
 const app = new Vue({
@@ -21,11 +21,11 @@ const app = new Vue({
   },
   methods: {
     login() {
-      Lib.Log.debug(this.loginId)
+      Log.debug(this.loginId)
       this.updating = true
       let success = (ret) => {
         this.updating = false
-        Lib.Log.debug("ログインに成功しました - ")
+        Log.debug("ログインに成功しました - ")
         this.forward()
       }
       let failure = (error) => {

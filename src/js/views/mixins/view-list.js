@@ -39,7 +39,7 @@ export default {
     initialSearch: {type: Boolean, default: true},
     paging: {type: Boolean, default: false}
   },
-  created() {
+  beforeMount() {
     this.clear()
     this.initialized()
   },
@@ -51,7 +51,7 @@ export default {
     },
     // 検索処理を行います
     // 検索時の処理はaction、検索条件はsearchDataに依存します。
-    search() { this.renderSearch() },
+    search(success = (data) => {}, failure = (error) => {}) { this.renderSearch(success, failure) },
     searchData() { return {} },
     action(param, success, failure) {
       Lib.Log.error('利用先でメソッドを実装してください [action]')
@@ -63,7 +63,7 @@ export default {
       if (!this.paging) return
       this.page.page = this.page.page + 1
       Lib.Log.debug(`- search next to ${this.page.page}`)
-      this.renderSearch(true)
+      this.renderSearch(null, null, true)
     },
     // 各種メッセージの他、検索結果を初期化します
     clear() {
@@ -71,7 +71,7 @@ export default {
       Vue.set(this, 'items', [])
     },
     // 検索を行います。appendがfalseのときは常に一覧を初期化します。
-    renderSearch(append = false) {
+    renderSearch(fnSuccess, fnFailure, append = false) {
       let param = this.searchData()
       if (0 < Object.keys(param).length) Lib.Log.debug(param)
       if (append === false) {
@@ -85,10 +85,16 @@ export default {
       let success = (data) => {
         this.updating = false
         this.renderList(data, append)
+        if (typeof fnSuccess === 'function') {
+          fnSuccess(data)
+        }
       }
       let failure = (error) => {
         this.updating = false
-        this.apiFailure(error)
+        this.actionFailure(error)
+        if (typeof fnFailure === 'function') {
+          fnFailure(error)
+        }
       }
       this.action(param, success, failure)
     },

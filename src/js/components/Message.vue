@@ -5,6 +5,7 @@
 
 [template]
 Message(global=true)
+Message(global=true, globalKey=anyEventKey)
 Message(field=anyMessageKey)
   <input type="text" …
 -->
@@ -48,6 +49,8 @@ export default {
   props: {
     // グローバル例外表示フラグ
     global: {type: Boolean, default: false},
+    // グローバル例外識別キー
+    globalKey: {type: String, default: null},
     // フィールド例外表示キー (グローバル例外表示フラグが false 時に有効)
     field: {type: String}
   },
@@ -60,12 +63,15 @@ export default {
     },
     handleGlobalMessage(messages) {
       let message = messages.global
-      this.message = message
-      if (message) {
+      console.log(messages)
+      let valid = this.globalKey ? this.globalKey === messages.globalKey : true
+      if (message && valid) {
+        this.message = Array.isArray(message) ? message[0] : message
         let type = this.messageType(messages.level)
         this.classAlert = `alert-${type}`
         this.classText = `text-${type}`
       } else {
+        this.message = null
         this.classAlert = null
         this.classText = null
       }

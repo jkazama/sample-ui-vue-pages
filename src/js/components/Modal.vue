@@ -3,13 +3,29 @@
 コンテンツのモーダル機能を提供する Vue コンポーネント。
 
 [template]
-Modal(ref="anyRefName")
+Modal(:show="modalAny", @hide="hideAnyModal", escape=true)
   .panel.panel-default
     .panel-body
+      | any contents
+      CommandButton(@click="hideAnyModal") 閉じる
+CommandButton(@click="showAnyModal") 開く
+
+※ @hide イベント指定は escape=true のときのみ必要
 
 [js]
-this.$refs.anyRefName.show() // 表示
-this.$refs.anyRefName.hide() // 非表示
+data() {
+  return {
+    modalAny: false
+  }
+},
+methods: {
+  showAnyModal() {
+    this.modalAny = true
+  },
+  hideAnyModal() {
+    this.modalAny = false
+  }
+}
 
 ※ モーダル幅を調整したいときは .l-modal-container の width や height を明示的に指定してください。
 -->
@@ -37,9 +53,9 @@ this.$refs.anyRefName.hide() // 非表示
 </style>
 
 <template lang="pug">
-.l-modal-mask(v-show="showModal")
+.l-modal-mask(v-show="show")
   .l-modal-wrapper
-    .l-modal-container(@keydown.esc="hide")
+    .l-modal-container
       slot
 </template>
 
@@ -48,25 +64,26 @@ export default {
   name: 'modal',
   data() {
     return {
-      showModal: false,
       eventFns: {}
     }
   },
+  props: {
+    /** モーダル表示をおこなうときはtrue */
+    show: {type: Boolean, default: false},
+    /** エスケープキーによるモーダル閉じを許容する時はtrue */
+    escape: {type: Boolean, default: false},
+  },
   mounted() {
-    this.eventFns.keydown = (e) => {
-      if (this.showModal && e.keyCode == 27) this.hide()
+    if (this.escape) {
+      this.eventFns.keydown = (e) => {
+        if (this.show && e.keyCode == 27) this.$emit('hide', {})
+      }
+      document.addEventListener("keydown", this.eventFns.keydown)
     }
-    document.addEventListener("keydown", this.eventFns.keydown)
   },
   destroyed() {
-    document.removeEventListener("keydown", this.eventFns.keydown)
-  },
-  methods: {
-    show() {
-      this.showModal = true
-    },
-    hide() {
-      this.showModal = false
+    if (this.escape) {
+      document.removeEventListener("keydown", this.eventFns.keydown)
     }
   }
 }

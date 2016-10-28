@@ -7,10 +7,10 @@ block content
     .panel.panel-default.l-panel-login
       .panel-heading ログインフォーム
       .panel-body
-        input-text.l-row(placeholder="ログインID", v-model="loginId", :enter="login")
-        input-text(placeholder="パスワード", v-model="password", password=true, :enter="login")
+        input-text.l-row(placeholder="ログインID", v-model="loginId", @enter="login")
+        input-text(placeholder="パスワード", v-model="password", password=true, @enter="login")
       .panel-footer
-        command-button.btn-primary(@click.native="login", :updating="updating")
+        command-button.btn-primary(@click="login", :updating="updating")
           i.fa.fa-fwfa-lg.fa-sign-in
           | 　ログイン
     .alert.alert-warning サーバ側（サンプル実装版）の認証モードを有効にした時は sample/sample でログインしてください。

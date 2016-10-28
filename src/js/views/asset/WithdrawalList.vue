@@ -5,6 +5,7 @@
 </style>
 <template lang="pug">
 .l-withdrawal-list
+  Message(global=true, globalKey="WithdrawalList")
   .row
     .col-md-12
       ListGroup(fixed=true, @bottom="next", :updating="updating").l-list-body

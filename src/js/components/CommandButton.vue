@@ -4,12 +4,10 @@
 ボタンの標準レイアウト適用とシンプルなイベント処理をサポートします。
 
 [template]
-CommandButton(@click.native="register", :updating="updating") OK
-
-※上記例では native を付与して直接親コンポーネントのメソッドを実行しています。
+CommandButton(@click="register", :updating="updating") OK
 -->
 <template lang="pug">
-button.btn.btn-default.btn-block(disabled=updating)
+button.btn.btn-default.btn-block(disabled=updating, @click="onClick")
   slot
   i.fa.fa-spinner.fa-spin(v-if="updating")
 </template>
@@ -20,6 +18,10 @@ export default {
   props: {
     updating: {type: Boolean, default: false}
   },
-  methods: {}
+  methods: {
+    onClick(e) {
+      this.$emit('click', e)
+    }
+  }
 }
 </script>

@@ -1,12 +1,12 @@
 <template lang="pug">
 .l-withdrawal-crud
-  Message(global=true)
+  Message(global=true, globalKey="WithdrawalCrud")
   .row.l-row
     .col-md-4
-      InputText(field="absAmount", placeholder="出金金額", suffix="円",
-        v-model="item.absAmount", :updating="updating", :enter="register")
+      InputText(field="absAmount", placeholder="出金金額", suffix="円", suffixType="text",
+        v-model="item.absAmount", :updating="updating", @enter="register")
     .col-md-2
-      CommandButton(@click.native="register", :updating="updating") 依頼する
+      CommandButton(@click="register", :updating="updating") 依頼する
   .row.l-row
     .col-md-12
       .alert.alert-warning 出金依頼に関わる注記文言を記載。動作確認用サンプルなので導線なり重複依頼はルーズに。

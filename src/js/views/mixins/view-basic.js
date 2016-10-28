@@ -6,6 +6,8 @@ import Vue from "vue"
 import Message from "components/Message.vue"
 import CommandButton from "components/CommandButton.vue"
 import InputText from "components/InputText.vue"
+import SelectBox from "components/SelectBox.vue"
+import DatePicker from "components/DatePicker.vue"
 import ListGroup from "components/ListGroup.vue"
 import Modal from "components/Modal.vue"
 
@@ -29,15 +31,20 @@ export default {
     return {}
   },
   components: {
-    Message, CommandButton, InputText, ListGroup, Modal
+    Message, CommandButton, InputText, SelectBox, DatePicker, ListGroup, Modal
   },
   created() {
     this.clear()
   },
   methods: {
+    // コンポーネントタグ(テンプレートで定義された文字列)を返します。文字列はアッパーキャメルケースで統一して返されます。
+    componentTag() {
+      let tag = this.$options._componentTag
+      return tag ? _.upperFirst(_.camelCase(tag)) : ""
+    },
     // メッセージを通知します。
     message(globalMessage = null, columnMessages = [], level = Level.INFO) {
-      let messages = {global: globalMessage, columns: columnMessages, level: level}
+      let messages = {global: globalMessage, globalKey: this.componentTag(), columns: columnMessages, level: level}
       if (globalMessage) Lib.Log.debug(messages)
       EventEmitter.$emit(Event.Messages, messages)
     },
@@ -139,7 +146,9 @@ export default {
     isLogin() { return Lib.Session.hasSession() },
     // セッション情報を取得します。key未指定時はログインセッションハッシュを返します
     sessionValue(key = null) { return Lib.Session.value(key) },
-    // セッション情報を取得します。key未指定時はログインセッションハッシュを返します
+    // セッション情報を設定します。key未指定時はログインセッションハッシュを上書きします
+    sessionValueSet(key = null, value) { return Lib.Session.valueSet(key, value) },
+    // 認可されているか確認します。
     hasAuthority(id) {
       let list = this.sessionValue() ? this.sessionValue().authorities : null
       return list ? Array.from(list).includes(`ROLE_${id}`) : false
