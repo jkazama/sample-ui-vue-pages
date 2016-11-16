@@ -25,7 +25,6 @@ Message(:field="field")
 
 <script lang="babel">
 import * as Lib from 'platform/plain'
-import Vue from 'vue'
 import Message from 'components/Message.vue'
 export default {
   name: 'input-text',

@@ -1,7 +1,6 @@
 import Param from 'variables'
 import {Level} from 'constants'
 import * as Lib from 'platform/plain'
-import Vue from 'vue'
 
 import ViewBasic from 'views/mixins/view-basic'
 
