@@ -1,7 +1,6 @@
 import Param from 'variables'
 import {Level, Event} from 'constants'
 import * as Lib from "platform/plain"
-import Vue from "vue"
 
 import Message from "components/Message.vue"
 import CommandButton from "components/CommandButton.vue"

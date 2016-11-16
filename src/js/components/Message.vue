@@ -36,7 +36,6 @@ div
 
 <script lang="babel">
 import {Level, Event} from 'constants'
-import Vue from 'vue'
 export default {
   name: 'message',
   data() {
