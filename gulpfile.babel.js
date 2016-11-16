@@ -36,9 +36,11 @@ const resource = {
       jquery:     `${paths.node.modules}/jquery/dist/jquery.js`,
       lodash:     `${paths.node.modules}/lodash/lodash.js`,
       moment:     `${paths.node.modules}/moment/moment.js`,
+      flatpickr:  `${paths.node.modules}/flatpickr/dist/flatpickr.js`,
       vue:        `${paths.node.modules}/vue/dist/vue.js`,
       bootstrap:  `${paths.node.modules}/bootstrap-sass/assets/javascripts/bootstrap.js`,
     },
+    css: [`${paths.node.modules}/flatpickr/dist/flatpickr.min.css`],
     fontawesome: `${paths.node.modules}/font-awesome/fonts/**/*`
   }
 }
@@ -142,6 +144,10 @@ gulp.task('build:static', () => {
     .pipe($.concat("vendor.bundle.js"))
     .pipe($.if(production, $.uglify()))
     .pipe(gulp.dest(paths.dist.js))
+  gulp.src(resource.vendor.css)
+    .pipe($.concat('vendor.css'))
+    .pipe($.pleeease())
+    .pipe(gulp.dest(paths.dist.css))
   gulp.src(resource.vendor.fontawesome)
     .pipe(gulp.dest(paths.dist.font))
   return gulp.src(resource.src.static)
