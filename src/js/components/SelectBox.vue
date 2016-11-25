@@ -13,8 +13,8 @@ SelectBox(field="statusType", v-model="item.statusType", :options="statusTypes",
 -->
 <template lang="pug">
 Message(:field="field")
-  select.form-control(:value="value", @change="onChange", :disabled="updating")
-    option(v-for="option in selectOptions", :value="option.value")
+  select.form-control(:class="styleClass", @change="onChange", :disabled="updating")
+    option(v-for="option in selectOptions", :value="option.value", :selected="option.value === value")
       | {{ option.label }}
 </template>
 
@@ -34,7 +34,9 @@ export default {
     /** 処理中フラグ */
     updating: {type: Boolean, default: false},
     // from v-model
-    value: {required: true}
+    value: {required: true},
+    /** スタイルクラス定義 */
+    styleClass: {type: Object, default: () => {}},
   },
   computed: {
     selectOptions() {
