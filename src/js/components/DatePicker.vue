@@ -13,7 +13,7 @@ DatePicker(field="requestDay", v-model="item.requestDay", from-today=true, place
 内部で Flatpickr を利用しています。細かいオプションについては以下を参照してください。
 https://chmln.github.io/flatpickr/
 -->
-<style lang="sass">
+<style lang="scss">
 .form-control[readonly] {
   background-color: #fafafa;
 }
@@ -77,11 +77,11 @@ export default {
         enableSeconds: this.seconds,
         time_24hr: true,
         minDate: this.fromToday ? moment().format("YYYY-MM-DD") : null,
+        onChange: (d, v) => {
+          this.updateValue(v)
+        },
       }, this.config)
       this.datepicker = new Flatpickr(this.$el.querySelector("input"), config)
-      this.datepicker.set('onChange', (d, v) => {
-        this.updateValue(v)
-      })
     }
   },
   beforeDestroy () {

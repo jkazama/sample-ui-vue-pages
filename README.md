@@ -19,13 +19,14 @@ SPA 実装については [sample-ui-vue](https://github.com/jkazama/sample-ui-v
 
 #### ビルド / テスト稼働環境構築
 
-ビルドは [Node.js](http://nodejs.jp/) + [Webpack](https://webpack.github.io/) + [Gulp](http://gulpjs.com/) で行います。以下の手順でインストールしてください。
+ビルドは [Node.js](http://nodejs.jp/) + [Webpack](https://webpack.github.io/) + [Gulp](http://gulpjs.com/) + [Yarn](https://yarnpkg.com/) or [npm](https://www.npmjs.com/) で行います。以下の手順でインストールしてください。
 
 1. Node.js の[公式サイト](http://nodejs.jp/)からインストーラをダウンロードしてインストール。
+1. 「 `npm install -g yarn` 」を実行して Yarn をインストール。
+    - Mac ユーザは 「 `sudo npm install -g yarn` 」 で。
 1. 「 `npm install -g gulp` 」 を実行して Gulp をインストール。
     - Mac ユーザは 「 `sudo npm install -g gulp` 」 で。
-1. コンソールで本ディレクトリ直下へ移動後、 「 `npm install` 」 を実行して Gulp ライブラリをインストール。
-    - node-sass あたりでビルドに失敗した場合は、 「 `npm uninstall node-sass` 」 を実行してから再度試してみてください。
+1. コンソールで本ディレクトリ直下へ移動後、「 `yarn` 」を実行して `package.json` 内のライブラリをインストール
 
 ### 動作確認
 
@@ -114,12 +115,12 @@ src
 
 | ライブラリ                    | バージョン   | 用途/追加理由 |
 | ------------------------- | -------- | ------------- |
-| `vue`                     | 2.1.+    | アプリケーションの MVVM 機能を提供 |
-| `jquery`                  | 3.1.+    | DOM 操作サポート |
+| `vue`                     | 2.3.+    | アプリケーションの MVVM 機能を提供 |
+| `jquery`                  | 3.2.+    | DOM 操作サポート |
 | `lodash`                  | 4.17.+    | 汎用ユーティリティライブラリ |
-| `moment`                  | 2.16.+   | 日時ライブラリ |
+| `moment`                  | 2.18.+   | 日時ライブラリ |
 | `bootstrap-sass-official` | 3.3.+    | CSS フレームワーク |
-| `fontawesome`             | 4.6.+    | フォントアイコンライブラリ |
+| `fontawesome`             | 4.7.+    | フォントアイコンライブラリ |
 
 ### License
 

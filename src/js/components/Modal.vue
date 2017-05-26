@@ -29,7 +29,7 @@ methods: {
 
 ※ モーダル幅を調整したいときは .l-modal-container の width や height を明示的に指定してください。
 -->
-<style lang="sass">
+<style lang="scss">
 .l-modal-mask {
   position: fixed;
   z-index: 9998;

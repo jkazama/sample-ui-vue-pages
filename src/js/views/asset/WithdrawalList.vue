@@ -1,4 +1,4 @@
-<style lang="sass">
+<style lang="scss">
 .l-list-body {
   height: 210px;
 }
