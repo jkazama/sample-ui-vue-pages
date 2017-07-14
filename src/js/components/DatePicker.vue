@@ -77,6 +77,9 @@ export default {
         enableSeconds: this.seconds,
         time_24hr: true,
         minDate: this.fromToday ? moment().format("YYYY-MM-DD") : null,
+        onOpen: (d, v) => {
+          this.datepicker.setDate(v)
+        },
         onChange: (d, v) => {
           this.updateValue(v)
         },
