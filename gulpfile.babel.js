@@ -174,9 +174,8 @@ gulp.task('revision:clean', () =>
 )
 
 gulp.task('revision:append', () => {
-  let revAll = new RevAll({dontRenameFile: [/^\/favicon.ico$/g, '.html']})
   return gulp.src(`${paths.dist.root}/**/*`)
-    .pipe(revAll.revision())
+    .pipe(RevAll.revision({dontRenameFile: [/^\/favicon.ico$/g, '.html']}))
     .pipe(gulp.dest(root.tmp))
 })
 
