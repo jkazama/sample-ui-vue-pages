@@ -90,6 +90,7 @@ gulp.task('revision', (callback) =>
 // compile Webpack [ ES6(Babel) / Vue -> Multipage ]
 gulp.task('build:webpack', () => {
   process.env.NODE_ENV = (production == true) ? 'production' : 'development'
+  let plugins = [new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)})]
   if (production) plugins.push(new webpack.optimize.UglifyJsPlugin({compress: { warnings: false　}}))
   return gulp.src([resource.src.webpack.babel])
     .pipe(named())
