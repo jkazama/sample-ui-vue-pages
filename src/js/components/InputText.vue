@@ -16,15 +16,16 @@ Message(:field="field")
   .input-group(v-if="suffix")
     input.form-control(:type="typeName", :placeholder="placeholder", :value="value",
       @input="onInput", @keydown.enter="onEnter", :disabled="updating")
-    span.input-group-addon(v-text="suffix" v-if="suffixType == 'text'")
-    span.input-group-btn(v-if="suffixType == 'button'")
-      button.btn.btn-default(v-html="suffix", @click="onEnter")
+    .input-group-append(v-if="suffixType")
+      span.input-group-text(v-text="suffix", v-if="suffixType == 'text'")
+      button.btn.btn-outline-secondary(v-html="suffix", @click="onEnter", v-if="suffixType == 'button'")
   input.form-control(v-if="!suffix", :type="typeName", :placeholder="placeholder", :value="value",
       @input="onInput", @keydown.enter="onEnter", :disabled="updating")
 </template>
 
 <script lang="babel">
 import * as Lib from 'platform/plain'
+import Vue from 'vue'
 import Message from 'components/Message.vue'
 export default {
   name: 'input-text',

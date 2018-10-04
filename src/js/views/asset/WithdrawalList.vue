@@ -1,22 +1,18 @@
 <style lang="scss">
 .l-list-body {
-  height: 210px;
+  height: 30rem;
 }
 </style>
 <template lang="pug">
-.l-withdrawal-list
-  Message(global=true, globalKey="WithdrawalList")
-  .row
-    .col-md-12
-      ListGroup(fixed=true, @bottom="next", :updating="updating").l-list-body
-        li.list-group-item.clearfix(v-for="item in items")
-          .l-item.l-item-day {{item.requestDay | day}}
-          .l-item.l-item-type
-            .label.label-default {{item.statusType}}
-          .l-item.l-item-currency.pull-right  {{item.currency}}
-          .l-item.l-item-amount.pull-right {{item.absAmount | amount}}
+.row: .col
+  ListGroup(fixed=true, @bottom="next", :updating="updating").l-list-body
+    li.list-group-item.d-flex.flex-row(v-for="item in items")
+      .l-item-day.text-center {{item.requestDay | day}}
+      .l-item-type.text-center
+        span.badge.badge-secondary {{item.statusType}}
+      .l-item-currency.text-center.ml-auto  {{item.currency}}
+      .l-item-amount.text-right {{item.absAmount | amount}}
 </template>
-
 <script lang="babel">
 import {Action} from "constants"
 import ViewList from "views/mixins/view-list"

@@ -3,4 +3,9 @@
 // FontAwesomeのSass拡張サポート
 //----------------------------------
 
-@import '../../node_modules/font-awesome/scss/font-awesome';
+$fa-font-path:       "../webfonts";
+$fa-font-size-base:  16px;
+$fa-css-prefix:      fa;
+
+@import '../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";

@@ -13,7 +13,7 @@ ListGroup(fixed=true, @bottom="next", :updating=updating)
 div(:class="{'l-scrollable': fixed}", @scroll="scroll")
   ul.list-group
     li.list-group-item.l-list-wait-row(v-show="updating")
-      i.fa.fa-spinner.fa-spin
+      i.fas.fa-spinner.fa-spin
     slot
 </template>
 

@@ -5,144 +5,31 @@
 
 // ### common
 
-.l-row {
-  margin-bottom: 6px;
-}
-
-.l-message {
-  font-size: 11px;
-  padding: 4px 6px;
-  margin-bottom: 6px;
-  display: none;
-}
-
-.l-item {
-  display: inline-block;
-}
-
 .l-scrollable { // height指定必須
   overflow-y: scroll;
 }
 
-.l-left {
-  text-align: left !important;
-}
-
-.l-center {
-  text-align: center !important;
-}
-
-.l-right {
-  text-align: right !important;
-}
-
-.l-small {
-  font-size: 90% !important;
-}
-
-.l-hide {
-  display: none;
-}
-
-// ### table
-
-.l-list-cnt {
-  margin: 0 6px 6px 0;
-  font-size: 11px;
-}
-
-.l-list-wait-row {
-  text-align: center;
-  td {
-    text-align: center;
-    width: 880px;
-    // 適切なwidth指定は各一覧毎に行ってください
-  }
-}
-
-.l-table-fixed {
-  thead, tbody {
-    display: block;
-  }
-  tbody {
-    height: 400px;
-    overflow-y: scroll;
-  }
-  th, td {
-    table-layout: fixed;
-    padding: 6px !important;
-    vertical-align: middle !important;
-  }
-  th {
-    text-align: center !important;
-    font-weight: normal;
-  }
-}
+// ### list
 
 // ### domain
 
-.l-item-id {
-  width: 100px;
-}
-.l-item-name {
-  width: 120px;
-}
-.l-item-name-lg {
-  width: 160px;
-}
 .l-item-type {
-  width: 100px;
+  width: 8rem;
 }
-.l-item-type-lg {
-  width: 140px;
-}
-.l-item-outline {
-  width: 240px;
-}
+
 .l-item-day {
-  width: 80px;
-  text-align: center;
+  width: 6rem;
 }
+
 .l-item-currency {
-  width: 60px;
-  text-align: center;
+  width: 3rem;
 }
 .l-item-amount {
-  width: 140px;
-  text-align: right;
+  width: 10rem;
 }
 
-// ### form
-
-.l-form-label {
-  color: #666;
-  font-size: 11px;
-  padding: 2px 6px;
-  margin-bottom: 3px;
-  border-left: 3px solid #aaa;
-}
-
-.l-form-value {
-  padding: 2px 6px;
-  margin-bottom: 3px;
-}
-
-// ### panel
-
-.l-panel-mock {
-  .panel-body {
-    background-color: #fafafa;
-    height: 160px;
-    color: #cfcfcf;
-    &:before {
-      content: "Dummy Contents";
-    }
+.l-card-mock {
+  .card-body {
+    height: 30rem;
   }
 }
-
-.l-panel-asset-info {
-  .panel-body {
-    height: 300px;
-  }
-}
-

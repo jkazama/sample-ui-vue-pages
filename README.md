@@ -40,7 +40,7 @@ SPA 実装については [sample-ui-vue](https://github.com/jkazama/sample-ui-v
 
 ### 開発の流れ
 
-基本的にテンプレート ( .pug / .scss / .js ( ES6 ) [ .vue ] ) を Web リソース ( .html / .css / .js ) へ Gulp / Webpack でリアルタイム変換させながら開発をしていきます。
+基本的にテンプレート ( .pug / .scss / .js ( ES201x ) [ .vue ] ) を Web リソース ( .html / .css / .js ) へ Gulp / Webpack でリアルタイム変換させながら開発をしていきます。
 動作確認は Gulp で独自に Web サーバを立ち上げた後、ブラウザ上で行います。  
 
 #### 各種テンプレートファイルの解説
@@ -49,8 +49,8 @@ SPA 実装については [sample-ui-vue](https://github.com/jkazama/sample-ui-v
     - HTML を生成するテンプレートツール。公式サイト TOP にある簡素な記法が特徴。
 - [Sass (SCSS)](http://sass-lang.com/)
     - CSS 表記を拡張するツール。変数や mixin 、ネスト表記などが利用可能。
-- [ES6 with Babel](https://babeljs.io/)
-    - ES6 用の Polyfill 。 ES5 でも ES6 風に記述が可能。
+- [ES201x with Babel](https://babeljs.io/)
+    - ES201x 用の Polyfill 。 ES5 でも ES201x 風に記述が可能。
 
 #### 各種テンプレートファイルの変更監視 / Web サーバ起動
 
@@ -68,9 +68,7 @@ SPA 実装については [sample-ui-vue](https://github.com/jkazama/sample-ui-v
 ### ポリシー
 
 - JS / CSS の外部ライブラリは npm で管理する
-    - jQuery や Bootstrap 等、グローバルスコープの汚染を許容するものはビルド済みリソースをそのまま流用する
 - プロジェクト固有の JS は Webpack を利用して生成する
-    - グローバルスコープの汚染を許容せずにモジュールベースで開発する
 - [SPA 版](https://github.com/jkazama/sample-ui-vue) と異なり、 DOM 表示後の操作を中心とした従来型の実装方式
     - コンポーネント粒度は粗めでなるべく素の HTML を触れるように
     - 上記前提のため、 jQuery を用いた DOM 操作も許容
@@ -78,6 +76,8 @@ SPA 実装については [sample-ui-vue](https://github.com/jkazama/sample-ui-v
     - 基本的に SEO 対策を考慮して動的にコンテンツを生成するコンポーネントは利用しない
     - 各種アクション等、 SEO 絡みの考慮が必要無い時は component [ .vue ] の利用も考える
         - see `js/entry/asset.js`
+
+> 今となっては大人しく [Nuxt.js](https://nuxtjs.org/) を使う方が無難な気が…
 
 #### ディレクトリ構成
 
@@ -115,12 +115,12 @@ src
 
 | ライブラリ                    | バージョン   | 用途/追加理由 |
 | ------------------------- | -------- | ------------- |
-| `vue`                     | 2.5.+    | アプリケーションの MVVM 機能を提供 |
-| `jquery`                  | 3.3.+    | DOM 操作サポート |
-| `lodash`                  | 4.17.+    | 汎用ユーティリティライブラリ |
+| `vue`                     | 2.x      | アプリケーションの MVVM 機能を提供 |
+| `jquery`                  | 3.3.x    | DOM 操作サポート |
+| `lodash`                  | 4.17.x   | 汎用ユーティリティライブラリ |
 | `moment`                  | 2.20.+   | 日時ライブラリ |
-| `bootstrap-sass-official` | 3.3.+    | CSS フレームワーク |
-| `fontawesome`             | 4.7.+    | フォントアイコンライブラリ |
+| `bootstrap`               | 4.x      | CSS フレームワーク |
+| `fontawesome-free`        | 5.x      | フォントアイコンライブラリ |
 
 ### License
 

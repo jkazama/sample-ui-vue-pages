@@ -30,38 +30,21 @@ export class Log {
 }
 
 // ## 非同期API要求ユーティリティ
-// JSON形式での接続前提とします。
-import request from 'superagent'
+// リクエストは Form 、戻り値はJSON形式を想定します。
+import axios from 'axios'
+axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+axios.defaults.headers['Expires'] = -1
+axios.defaults.headers['Cache-Control'] = 'no-cache,no-store,must-revalidate,max-age=-1,private'
+axios.defaults.withCredentials = true
 export class Ajax {
-  static options(request) {
-    request.withCredentials()
-    request.accept('json')
-    request.timeout(Param.Api.timeout)
-    // for nocache
-    request.set('X-Requested-With', 'XMLHttpRequest')
-    request.set('Expires', '-1')
-    request.set('Cache-Control', 'no-cache,no-store,must-revalidate,max-age=-1,private')
-    let time = Date.now().toString()
-    if (request._query !== undefined && request._query[0]) {
-      request._query[0] += '&' + time
-    } else {
-      request._query = [time]
-    }
-  }
   // GET形式のPromiseを返します。
   static promiseGet(url, data = {}) {
-    return new Promise((resolve, reject) => {
-      request
-        .get(this.requestUrl(url))
-        .query(data)
-        .use(this.options)
-        .end((err, res) => res && res.ok ? resolve(res) : reject(err))
-    })
+    return axios.get(this.requestUrl(url), { params: data })
   }
   // GET形式でサーバ側へリクエスト処理をします。
   static get(url, data = {}, success = this.handleSuccess, failure = this.handleFailure) {
     this.promiseGet(url, data).then((res) => {
-      if (success) success(res.body)
+      if (success) success(res.data)
     }).catch((err) => {
       this.handlePreFailure(err)
       if (failure) failure(err)
@@ -69,19 +52,14 @@ export class Ajax {
   }
   // POST形式のPromiseを返します。
   static promisePost(url, data = {}) {
-    return new Promise((resolve, reject) => {
-      request
-        .post(this.requestUrl(url))
-        .type('form')
-        .send(data)
-        .use(this.options)
-        .end((err, res) => res && res.ok ? resolve(res) : reject(err))
-    })
+    let form = new FormData()
+    Object.keys(data).forEach((key) => form.append(key, data[key]))
+    return axios.post(this.requestUrl(url), form)
   }
   // POST形式でサーバ側へリクエスト処理をします。
   static post(url, data = {}, success = this.handleSuccess, failure = this.handleFailure) {
     this.promisePost(url, data).then((res) => {
-      if (success) success(res.body)
+      if (success) success(res.data)
     }).catch((err) => {
       this.handlePreFailure(err)
       if (failure) failure(err)
@@ -91,13 +69,7 @@ export class Ajax {
   static promiseUpload(url, data = {}) {
     let form = new FormData()
     Object.keys(data).forEach((key) => form.append(key, data[key]))
-    return new Promise((resolve, reject) => {
-      request
-        .post(this.requestUrl(url))
-        .send(form)
-        .use(this.options)
-        .end((err, res) => res && res.ok ? resolve(res) : reject(err))
-    })
+    return axios(this.requestUrl(url), form)
   }
   // 指定したURLに対するアップロード処理をします。
   // 指定されたハッシュデータはFormDataへ紐付けられて送信されます。
@@ -110,15 +82,24 @@ export class Ajax {
     })
   }
   // 接続先URLパスを整形します。
-  static requestUrl(url) { return url }
+  static requestUrl(url) {
+    // for nocache
+    let time = Date.now().toString()
+    if (url && 0 <= url.indexOf('?')) {
+      url += '&' + time
+    } else {
+      url += '?' + time
+    }
+    return url
+  }
   // リクエスト成功時の標準処理を行います。
   static handleSuccess(data) { Log.info(data) }
   // リクエスト失敗時の事前処理を行います。
   static handlePreFailure(err) {
-    if (err.response) {
-      let xhr = err.response.xhr
-      Log.warn(xhr)
-      switch(xhr.status) {
+    const res = err.response
+    if (res.status) {
+      Log.warn("[" + res.status + "] " + res.statusText)
+      switch (res.status) {
         case 0:
           Log.error('接続先が見つかりませんでした')
           break
@@ -126,13 +107,13 @@ export class Ajax {
           Log.error('戻り値の解析に失敗しました。JSON形式で応答が返されているか確認してください')
           break
         case 400:
-          Log.warn(xhr.statusText)
+          Log.warn(res.data)
           break
         case 401:
           Log.error('機能実行権限がありません')
           break
         default:
-          Log.error(xhr.statusText)
+          Log.error(res.data)
       }
     } else {
       Log.error(err)

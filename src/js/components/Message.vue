@@ -10,6 +10,12 @@ Message(field=anyMessageKey)
   <input type="text" …
 -->
 <style lang="scss">
+.l-message-global {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  z-index: 1;
+}
 .l-message-group {
   display: block;
   input, textarea, select {
@@ -22,12 +28,22 @@ Message(field=anyMessageKey)
     margin-bottom: .2em;
   }
 }
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
 </style>
 
 <template lang="pug">
 div
   div(v-if="global")
-    .alert(:class="[classAlert, classText]" v-text="message" v-if="message")
+    transition(v-if="notification", name="fade")
+      .l-message-global
+        .alert.p-2(:class="[classAlert, classText]", v-if="message")
+          i.fas.fa-exclamation-triangle
+          | &nbsp;{{message}}
   div(v-if="!global")
     div(:class="{'input-group': message, 'l-message-group': message}")
       slot
@@ -36,13 +52,15 @@ div
 
 <script lang="babel">
 import {Level, Event} from 'constants'
+import Vue from 'vue'
 export default {
   name: 'message',
   data() {
     return {
       classAlert: null,
       classText: null,
-      message: null
+      message: null,
+      notification: false,
     }
   },
   props: {
@@ -51,7 +69,9 @@ export default {
     // グローバル例外識別キー
     globalKey: {type: String, default: null},
     // フィールド例外表示キー (グローバル例外表示フラグが false 時に有効)
-    field: {type: String}
+    field: {type: String},
+    // グローバル例外表示期間（msec）
+    showTime: {type: Number, default: 2000},
   },
   created() {
     EventEmitter.$on(Event.Messages, (v) => this.handleMessages(v))
@@ -61,13 +81,16 @@ export default {
       this.global ? this.handleGlobalMessage(messages) : this.handleColumnMessage(messages)
     },
     handleGlobalMessage(messages) {
+      this.notification = false
       let message = messages.global
       let valid = this.globalKey ? this.globalKey === messages.globalKey : true
       if (message && valid) {
         this.message = Array.isArray(message) ? message[0] : message
         let type = this.messageType(messages.level)
         this.classAlert = `alert-${type}`
-        this.classText = `text-${type}`
+        this.classText = null
+        this.notification = true
+        setTimeout(() => this.notification = false, this.showTime)
       } else {
         this.message = null
         this.classAlert = null
