@@ -7,9 +7,9 @@
 CommandButton(@click="register", :updating="updating") OK
 -->
 <template lang="pug">
-button.btn.btn-default.btn-block(disabled=updating, @click="onClick")
+button.btn.btn-secondary.btn-block(disabled=updating, @click="onClick")
   slot
-  i.fa.fa-spinner.fa-spin(v-if="updating")
+  i.fas.fa-spinner.fa-spin(v-if="updating")
 </template>
 
 <script lang="babel">

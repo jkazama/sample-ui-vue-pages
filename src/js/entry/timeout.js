@@ -4,8 +4,12 @@
 
 // Common
 import "common"
-import Header from "header"
+import "header"
 
 // Page ViewModel
-const app = new Vue()
+import ViewBasic from "views/mixins/view-basic"
+
+const app = new Vue({
+  mixins: [ViewBasic],
+})
 app.$mount('#app')

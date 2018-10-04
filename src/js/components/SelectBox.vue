@@ -13,13 +13,14 @@ SelectBox(field="statusType", v-model="item.statusType", :options="statusTypes",
 -->
 <template lang="pug">
 Message(:field="field")
-  select.form-control(:class="styleClass", @change="onChange", :disabled="updating")
-    option(v-for="option in selectOptions", :value="option.value", :selected="option.value === value")
+  select.form-control(:value="value", :class="styleClass", @change="onChange", :disabled="updating")
+    option(v-for="option in selectOptions", :value="option.value")
       | {{ option.label }}
 </template>
 
 <script lang="babel">
 import * as Lib from 'platform/plain'
+import Vue from 'vue'
 import Message from 'components/Message.vue'
 export default {
   name: 'select-box',

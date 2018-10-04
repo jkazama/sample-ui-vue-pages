@@ -2,13 +2,14 @@ extends ./layouts/simple.pug
 block title
   title セッションタイムアウト
 block content
-  .col-xs-6.col-xs-offset-3
-    .panel.panel-default
-      .panel-heading セッションタイムアウト
-      .panel-body
-        .alert.alert-warning ログインしていないか一定時間操作がありませんでした。
-      .panel-footer
-        a.btn.btn-block.btn-default(href="/login.html")
-          |　ログイン画面へ戻る
+  .row.justify-content-center
+    .col-md-4
+      .card.m-2
+        .card-body
+          .card-title.p-1: h5 セッションタイムアウト
+          .card-text
+            .alert.alert-warning.mb-2 ログインしていないか一定時間操作がありませんでした。
+            a.btn.btn-block.btn-secondary(href="/login.html")
+              |　ログイン画面へ戻る
 block body-last
   script(src="/js/timeout.js")

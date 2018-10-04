@@ -4,7 +4,7 @@
 
 // Common
 import "common"
-import Header from "header"
+import "header"
 
 // Page ViewModel
 import ViewBasic from "views/mixins/view-basic"

@@ -43,7 +43,7 @@ export default {
     },
     // メッセージを通知します。
     message(globalMessage = null, columnMessages = [], level = Level.INFO) {
-      let messages = {global: globalMessage, globalKey: this.componentTag(), columns: columnMessages, level: level}
+      let messages = { global: globalMessage, globalKey: this.componentTag(), columns: columnMessages, level: level }
       if (globalMessage) Lib.Log.debug(messages)
       EventEmitter.$emit(Event.Messages, messages)
     },
@@ -102,7 +102,7 @@ export default {
       let message = null
       let columns = []
       let level = Level.ERROR
-      switch (error.status) {
+      switch (error.response.status) {
         case 200:
           message = "要求処理は成功しましたが、戻り値の解析に失敗しました"
           break
@@ -121,11 +121,11 @@ export default {
       }
       this.message(message, columns, level)
     },
-    parseApiError (error) {
-      let errs = JSON.parse(error.response.text)
-      let parsed = {global: null, columns: []}
-      Object.keys(errs).forEach((err) => {
-        if (err) parsed.columns.push({key: err, messages: errs[err], level: Level.ERROR})
+    parseApiError(error) {
+      const errs = error.response.data
+      let parsed = { global: null, columns: [] }
+      Object.keys(error.response.data).forEach((err) => {
+        if (err) parsed.columns.push({ key: err, messages: errs[err], level: Level.ERROR })
         else parsed.global = errs[err]
       })
       return parsed

@@ -16,7 +16,7 @@ const paths = {
     root: `${root.dist}`,
     js:   `${root.dist}/js`,
     css:  `${root.dist}/css`,
-    font: `${root.dist}/fonts`
+    font: `${root.dist}/webfonts`
   },
   node: {
     modules: `${__dirname}/node_modules`
@@ -37,24 +37,22 @@ const resource = {
       lodash:     `${paths.node.modules}/lodash/lodash.js`,
       moment:     `${paths.node.modules}/moment/moment.js`,
       flatpickr:  `${paths.node.modules}/flatpickr/dist/flatpickr.js`,
-      vue:        `${paths.node.modules}/vue/dist/vue.js`,
-      bootstrap:  `${paths.node.modules}/bootstrap-sass/assets/javascripts/bootstrap.js`,
+      bootstrap:  `${paths.node.modules}/bootstrap/dist/js/bootstrap.js`,
     },
     css: [`${paths.node.modules}/flatpickr/dist/flatpickr.min.css`],
-    fontawesome: `${paths.node.modules}/font-awesome/fonts/**/*`
+    fontawesome: `${paths.node.modules}/@fortawesome/fontawesome-free/webfonts/**/*`
   }
 }
 
 import gulp from 'gulp'
 import gulpLoaderPlugins from 'gulp-load-plugins'
 import del from 'del'
-import path from 'path'
 import webpack from 'webpack'
 import webpackStream from 'webpack-stream'
 import runSequence from 'run-sequence'
 import browserSyncTool from 'browser-sync'
-import named from 'vinyl-named'
 import RevAll from 'gulp-rev-all'
+import named from 'vinyl-named'
 
 const $ = gulpLoaderPlugins()
 const browserSync   = browserSyncTool.create()
@@ -87,25 +85,48 @@ gulp.task('revision', (callback) =>
   runSequence('revision:clean', 'revision:append', 'clean', 'revision:copy', 'revision:clean', callback)
 )
 
-// compile Webpack [ ES6(Babel) / Vue -> Multipage ]
+// compile Webpack [ ES201x(Babel) / Vue -> Multipage ]
+import VueLoaderPlugin from 'vue-loader/lib/plugin'
 gulp.task('build:webpack', () => {
   process.env.NODE_ENV = (production == true) ? 'production' : 'development'
-  let plugins = [new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)})]
-  if (production) {
-    plugins.push(new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false 　} }))
-    plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
-  }
+  const plugins = [
+    new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)}),
+    new VueLoaderPlugin(),
+  ]
   return gulp.src([resource.src.webpack.babel])
     .pipe(named())
     .pipe($.plumber())
     .pipe(webpackStream({
-      devtool: '#source-map',
+      mode: process.env.NODE_ENV,
+      devtool: production ? false : '#source-map',
       output: {filename: '[name].js'},
+      optimization: {
+        noEmitOnErrors: true,
+      },
       watch: !production,
       module: {
         rules: [
-          {test: /\.js$/, use: 'babel-loader', exclude: /node_modules/},
-          {test: /\.vue$/, use: 'vue-loader', exclude: /node_modules/}
+          { test: /\.js$/, use: 'babel-loader', exclude: /node_modules/ },
+          { test: /\.vue$/, use: 'vue-loader', exclude: /node_modules/ },
+          { test: /\.pug$/, use: 'pug-plain-loader', exclude: /node_modules/ },
+          {
+            test: /\.scss$/,
+            use: [
+              'vue-style-loader',
+              'css-loader',
+              'sass-loader'
+            ],
+            exclude: /node_modules/
+          },
+          {
+            test: /\.sass$/,
+            use: [
+              'vue-style-loader',
+              'css-loader',
+              'sass-loader?indentedSyntax'
+            ],
+            exclude: /node_modules/
+          },
         ],
       },
       resolve: {
@@ -115,7 +136,8 @@ gulp.task('build:webpack', () => {
           vue: 'vue/dist/vue.common.js',
           constants: `${paths.src.js}/constants`,
         }
-      }
+      },
+      plugins: plugins
      }, webpack))
     .pipe(gulp.dest(paths.dist.js))
     .pipe(browserSync.stream())
@@ -125,9 +147,7 @@ gulp.task('build:webpack', () => {
 gulp.task('build:pug', () => {
   return gulp.src(resource.src.pug)
     .pipe($.plumber())
-     .pipe($.pug())
-    // .pipe($.htmlhint())
-    //.pipe($.htmlhint.reporter())
+    .pipe($.pug())
     .pipe(gulp.dest(paths.dist.root))
     .pipe(browserSync.stream())  
 })
@@ -136,9 +156,8 @@ gulp.task('build:pug', () => {
 gulp.task('build:sass', () => {
   return gulp.src(resource.src.sass)
     .pipe($.plumber())
-    .pipe($.sass())
     .pipe($.concat('style.css'))
-    .pipe($.pleeease())
+    .pipe($.sass({ outputStyle: 'compressed' }))
     .pipe(gulp.dest(paths.dist.css))
     .pipe(browserSync.stream())
 })
@@ -152,7 +171,7 @@ gulp.task('build:static', () => {
     .pipe(gulp.dest(paths.dist.js))
   gulp.src(resource.vendor.css)
     .pipe($.concat('vendor.css'))
-    .pipe($.pleeease())
+    .pipe($.sass({ outputStyle: 'compressed' }))
     .pipe(gulp.dest(paths.dist.css))
   gulp.src(resource.vendor.fontawesome)
     .pipe(gulp.dest(paths.dist.font))

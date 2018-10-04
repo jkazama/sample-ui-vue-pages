@@ -4,65 +4,40 @@
 //----------------------------------
 
 // [bootstrap]
-//see https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss
+//see bootstrap/scss/bootstrap.scss
 
-$font-size-base: 13px;
-$navbar-height: 40px;
-$border-radius-base: 2px;
+$font-size-base: .9rem;
 
-$panel-body-padding: .6em;
-$panel-heading-padding: .4em .6em;
-$panel-default-text: #666;
+$font-family-sans-serif:
+  // Safari for OS X and iOS (San Francisco)
+  -apple-system,
+  // Chrome < 56 for OS X (San Francisco)
+  BlinkMacSystemFont,
+  // Windows
+  "Segoe UI",
+  // Android
+  "Roboto",
+  // Basic web fallback
+  "Helvetica Neue", Arial, sans-serif,
+  // Emoji fonts
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
 
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap-sprockets";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap";
+$nav-link-padding-y: .2rem;
+$nav-link-padding-x: 1rem;
 
-// ### basic ###
+$list-group-item-padding-y: .4rem;
+$list-group-item-padding-x: .4rem;
 
-hr {
-  margin: .6em 0;
-}
+$alert-padding-y: .2rem;
+$alert-padding-x: .4rem;
+$alert-margin-bottom: .4rem;
 
-p {
-  margin: 0 0 3px;
-}
+$card-spacer-y: .2rem;
+$card-spacer-x: .4rem;
 
-label, .label {
-  font-weight: normal;
-}
+$badge-font-size: 90%;
+$badge-font-weight: normal;
+$badge-padding-y: .4em;
+$badge-padding-x: .4em;
 
-th {
-  font-weight: normal;
-}
-
-// ### bootstrap ###
-
-.navbar-right {
-  margin-right: 3px;
-}
-
-.list-group {
-  margin-bottom: 0;
-}
-
-.list-group-item {
-  padding: 6px 9px;
-}
-
-.panel {
-  margin-bottom: 9px;
-}
-
-.table {
-  margin-bottom: 0;
-}
-
-.alert {
-  font-size: 11px;
-  padding: 4px 6px;
-  margin-bottom: 6px;
-}
-
-.tab-pane {
-  padding: 10px 0;
-}
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
