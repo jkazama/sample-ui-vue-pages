@@ -39,7 +39,9 @@ axios.defaults.withCredentials = true
 export class Ajax {
   // GET形式のPromiseを返します。
   static promiseGet(url, data = {}) {
-    return axios.get(this.requestUrl(url), { params: data })
+    const params = new URLSearchParams();
+    Object.keys(data).forEach((key) => params.append(key, data[key]))
+    return axios.get(this.requestUrl(url), {params: params})
   }
   // GET形式でサーバ側へリクエスト処理をします。
   static get(url, data = {}, success = this.handleSuccess, failure = this.handleFailure) {
@@ -52,9 +54,9 @@ export class Ajax {
   }
   // POST形式のPromiseを返します。
   static promisePost(url, data = {}) {
-    let form = new FormData()
-    Object.keys(data).forEach((key) => form.append(key, data[key]))
-    return axios.post(this.requestUrl(url), form)
+    const params = new URLSearchParams();
+    Object.keys(data).forEach((key) => params.append(key, data[key]))
+    return axios.post(this.requestUrl(url), params)
   }
   // POST形式でサーバ側へリクエスト処理をします。
   static post(url, data = {}, success = this.handleSuccess, failure = this.handleFailure) {
@@ -97,7 +99,7 @@ export class Ajax {
   // リクエスト失敗時の事前処理を行います。
   static handlePreFailure(err) {
     const res = err.response
-    if (res.status) {
+    if (res && res.status) {
       Log.warn("[" + res.status + "] " + res.statusText)
       switch (res.status) {
         case 0:

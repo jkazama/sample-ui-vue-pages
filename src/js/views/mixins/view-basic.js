@@ -116,6 +116,9 @@ export default {
         case 401:
           message = "機能実行権限がありません"
           break
+        case 403:
+          message = "機能実行権限がありません"
+          break
         default:
           message = "要求処理に失敗しました"
       }

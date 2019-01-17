@@ -30,7 +30,7 @@ const app = new Vue({
       }
       let failure = (error) => {
         this.updating = false
-        switch (error.status) {
+        switch (error.response.status) {
           case 400:
             this.messageError("IDまたはパスワードに誤りがあります", [], Level.WARN)
             break
