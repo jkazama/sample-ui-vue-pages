@@ -1,0 +1,15 @@
+services:
+  workspace:
+    image: mcr.microsoft.com/vscode/devcontainers/javascript-node:0-18-bullseye
+    init: true
+    command: /bin/sh -c "chown -R $UID:$GID /home/node/workspace/node_modules; while sleep 1000; do :; done"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ..:/home/node/workspace:cached
+      - ~/.ssh:/home/node/.ssh
+      - node-modules:/home/node/workspace/node_modules
+    working_dir: /home/node/workspace
+
+volumes:
+  node-modules:
