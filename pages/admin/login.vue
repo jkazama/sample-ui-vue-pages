@@ -1,0 +1,3 @@
+<template>
+  <CommonLogin admin />
+</template>

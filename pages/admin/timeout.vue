@@ -1,0 +1,3 @@
+<template>
+  <CommonTimeout admin />
+</template>
